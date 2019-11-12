@@ -58,3 +58,6 @@ CTestTestfile.cmake
 # ---- Ctags
 tags
 tags/**/*
+
+# ---- CCLS
+.ccls-cache/
