@@ -11,4 +11,5 @@ fn main() {
     let d = a >= 1;
     let f = a <= d;
     let e = a > 0;
+    let f = "abc;
 }

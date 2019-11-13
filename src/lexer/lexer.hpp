@@ -19,26 +19,37 @@ class Token {
 
     public:
         enum Kind {
+            // Literals
             Identifier,
             Number,
+
             LeftParen,
             RightParen,
             LeftCurly,
             RightCurly,
+
+            // Comparison
             LessThan,
             GreaterThan,
             LessThanOrEqual,
             GreaterThanOrEqual,
             DoubleEqual,
+
+            // Assignment
             Equal,
+
+            // Arithmetic
             Plus,
             Minus,
             Asterisk,
             Slash,
+
+            // Single character
             Ampersand,
             Semicolon,
-            SingleQuote,
-            DoubleQuote,
+            String,
+
+            // Comments, EOF or Errors
             Comment,
             End,
             Unexpected,
@@ -53,9 +64,7 @@ class Token {
         Token(Kind kind, unsigned int line, const char* beg, const char* end)
             : m_kind(kind), m_line(line), m_lexeme(beg, std::distance(beg, end)) {}
 
-        unsigned int on_line() {
-            return m_line; 
-        }
+        unsigned int on_line() { return m_line; }
 
         Kind kind() const { return m_kind; }
 
@@ -100,13 +109,19 @@ class Lexer {
         Token atom(Token::Kind kind);
         Token identifier();
         Token number();
+        Token string();
         Token slash_or_comment();
         Token less_than_or_equal();
         Token greater_than_or_equal();
         Token equal();
 
         char peek() { return *m_beg; }
-        char get() { return *m_beg++; }
+        char get() {
+            ++current;
+            return *m_beg++;
+        }
+
+        bool is_end() { return current >= text.length() || peek() == '\0'; }
 
     private:
 
@@ -114,6 +129,7 @@ class Lexer {
 
         const char * m_beg = nullptr;
         unsigned int m_line_lex = 1;
+        unsigned int current = 0;
 
         std::ifstream source;
 };

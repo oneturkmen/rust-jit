@@ -2,7 +2,6 @@
 
 #include <sstream>
 
-
 // ------ Non-class functions -------
 
 bool is_space(char c) {
@@ -126,6 +125,7 @@ Lexer::Lexer(const std::string& file_name) {
 
 // Atomic lexemes
 Token Lexer::atom(Token::Kind kind) {
+    ++current;
     return Token(kind, m_line_lex, m_beg++, 1);
 }
 
@@ -193,6 +193,24 @@ Token Lexer::equal() {
     } else {
         return Token(Token::Kind::Equal, m_line_lex, start, 1);
     }
+}
+
+Token Lexer::string() {
+    const char * start = m_beg;
+    get(); // consume LHS double quote
+    while (peek() != '"' && !is_end()) {
+        if (peek() == '\n') ++m_line_lex;
+        get();
+    }
+
+    if (is_end()) {
+        return Token(Token::Kind::Unexpected, m_line_lex);
+    }
+
+    get(); // consume RHS double quote
+
+    return Token(Token::Kind::String, m_line_lex, start + 1, 
+            std::distance(start, m_beg) - 2);
 }
 
 Token Lexer::next() {
@@ -296,9 +314,7 @@ Token Lexer::next() {
             return atom(Token::Kind::Ampersand);
         case ';':
             return atom(Token::Kind::Semicolon);
-        case '\'':
-            return atom(Token::Kind::SingleQuote);
         case '"':
-            return atom(Token::Kind::DoubleQuote);
+            return string();
     }
 }
