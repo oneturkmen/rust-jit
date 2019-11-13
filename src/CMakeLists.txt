@@ -12,9 +12,9 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 
 
-set(APP_SOURCES lexer/main.cpp lexer/lexer.cpp)
+set(APP_SOURCES main.cpp lexer.cpp)
 
 # Creates ./build/bin/runner
 add_executable(lexer ${APP_SOURCES})
 
-target_include_directories(lexer PRIVATE ${PROJECT_SOURCE_DIR}/lexer)
+#target_include_directories(lexer PRIVATE ${PROJECT_SOURCE_DIR}/lexer)

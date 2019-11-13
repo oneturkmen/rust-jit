@@ -1,7 +1,8 @@
-#include "lexer.hpp"
 
 #include <iomanip>
 #include <iostream>
+
+#include "lexer.hpp"
 
 std::ostream& operator<<(std::ostream& os, const Token::Kind& kind) {
     static const char * const names[]{

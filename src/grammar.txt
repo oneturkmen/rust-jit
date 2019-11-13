@@ -1,0 +1,23 @@
+expression:
+    literal
+    | unary      /* minus, '&', and '*' */
+    | binary
+    | grouping ;
+
+literal:
+    NUMBER | STRING | "true" | "false" | "nil" ;
+
+grouping:
+    "(" expression ")" ;
+
+unary:
+    ("-" | "*" | "&") expression ;    /* gotta be careful when using reference operator on expressions */
+
+binary:
+    expression operator expression ;
+
+operator:
+    "==" | ">=" | "<=" | ">" | "<" | "+" | "-" | "*" | "/";
+
+
+
