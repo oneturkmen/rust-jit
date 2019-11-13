@@ -12,6 +12,8 @@ CTestTestfile.cmake
 # build directory
 /build
 /build/**/*
+/src/build
+/src/build/**/*
 
 # ---- C++
 # Prerequisites
