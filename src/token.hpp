@@ -69,11 +69,11 @@ class Token {
             return is(kind1) || is_one_of(kind2, ks...);
         }
 
-        std::string_view lexeme() const {
+        std::string lexeme() const {
             return m_lexeme;
         }
 
-        void lexeme(std::string_view lex) {
+        void lexeme(std::string lex) {
             m_lexeme = std::move(lex);
         }
 
@@ -81,7 +81,7 @@ class Token {
 
         unsigned int m_line;
         Kind m_kind;
-        std::string_view m_lexeme;
+        std::string m_lexeme;
 };
 
 #endif

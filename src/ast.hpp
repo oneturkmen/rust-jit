@@ -1,12 +1,17 @@
 #ifndef AST_H
 #define AST_H
 
+#include <string>
+
 #include "token.hpp"
+#include "ast_visitor.hpp"
 
 /**
  * Base class for all expressions.
  */
 class Expr {
+    public:
+        virtual std::string accept(Visitor<std::string>* visitor) = 0;
 };
 
 
@@ -18,7 +23,11 @@ class Identifier: public Expr {
         Identifier(Token token)
             : m_token{token} { }
 
-    private:
+        std::string accept(Visitor<std::string>* visitor) {
+            return visitor->visitIdentifier(this);
+        }
+
+        // Fields
         Token m_token;
 };
 
