@@ -1,23 +1,21 @@
 expression:
-    literal
-    | unary      /* minus, '&', and '*' */
-    | binary
-    | grouping ;
+    equality ;
 
-literal:
-    NUMBER | STRING | "true" | "false" | "nil" ;
+equality:
+    comparison ("==" comparison) * ;
 
-grouping:
-    "(" expression ")" ;
+comparison:
+    addition (("<=" | ">=" | "<" | ">") addition) * ;
+
+addition:
+    multiplication (("+" | "-") multiplication) * ;
+
+multiplication:
+    unary (("/" | "*") unary) * ;
 
 unary:
-    ("-" | "*" | "&") expression ;    /* gotta be careful when using reference operator on expressions */
+    ("*" | "-" | "&") unary
+    | primary ;
 
-binary:
-    expression operator expression ;
-
-operator:
-    "==" | ">=" | "<=" | ">" | "<" | "+" | "-" | "*" | "/";
-
-
-
+primary:
+    NUMBER | STRING | "(" expression ")" ;

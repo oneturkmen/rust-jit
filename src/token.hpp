@@ -58,18 +58,18 @@ class Token {
 
         void kind(Kind kind) { m_kind = kind; }
 
-        bool is(Kind kind) { return m_kind == kind; }
+        bool is(Kind kind) const { return m_kind == kind; }
 
-        bool is_not(Kind kind) { return m_kind != kind; }
+        bool is_not(Kind kind) const { return m_kind != kind; }
 
-        bool is_one_of(Kind kind1, Kind kind2) { return is(kind1) || is(kind2); }
+        bool is_one_of(Kind kind1, Kind kind2) const { return is(kind1) || is(kind2); }
 
         template <typename ...Ts>
-        bool is_one_of(Kind kind1, Kind kind2, Ts... ks) {
+        bool is_one_of(Kind kind1, Kind kind2, Ts... ks) const {
             return is(kind1) || is_one_of(kind2, ks...);
         }
 
-        std::string lexeme() {
+        std::string lexeme() const {
             return m_lexeme;
         }
 
