@@ -118,85 +118,92 @@ Lexer::Lexer(const std::string& file_name) {
     buffer << source.rdbuf();
 
     text = std::move(buffer.str());
-
-    // Initialize pointer to currently processed character
-    m_beg = text.c_str();
 }
 
 // Atomic lexemes
 Token Lexer::atom(Token::Kind kind) {
-    ++current;
-    return Token(kind, m_line_lex, m_beg++, 1);
+    return Token(kind, m_line_lex, get());
 }
 
 Token Lexer::identifier() {
-    const char * start = m_beg;
+    unsigned int start = current;
     get();
     while (is_identifier_char(peek())) get();
-    return Token(Token::Kind::Identifier, m_line_lex, start, m_beg);
+    return Token(
+            Token::Kind::Identifier,
+            m_line_lex,
+            text.substr(start, current - start));
 }
 
 Token Lexer::number() {
-    const char * start = m_beg;
+    unsigned int start = current;
     get();
     while (is_digit(peek())) get();
-    return Token(Token::Kind::Number, m_line_lex, start, m_beg);
+    return Token(
+            Token::Kind::Number,
+            m_line_lex, 
+            text.substr(start, current - start));
 }
 
 Token Lexer::slash_or_comment() {
-    const char * start = m_beg;
+    unsigned int start = current;
     get();
     if (peek() == '/') {
         // Comment
         get();
-        start = m_beg;
+        start = current;
         while (peek() != '\0') {
             if (get() == '\n') {
-                return Token(Token::Kind::Comment, m_line_lex, start,
-                        std::distance(start, m_beg) - 1); // ignore newline
+                return Token(
+                        Token::Kind::Comment,
+                        m_line_lex,
+                        text.substr(start, current - start - 1)); // ignore newline
             }
         }
     } else {
         // Division
-        return Token(Token::Kind::Slash, m_line_lex, start, 1);
+        return Token(
+                Token::Kind::Slash,
+                m_line_lex,
+                text[start]);
     }
 }
 
 Token Lexer::less_than_or_equal() {
-    const char * start = m_beg;
+    unsigned int start = current;
     get();
     if (peek() == '=') {
         get(); // transition to next token
-        return Token(Token::Kind::LessThanOrEqual, m_line_lex, start, 2);
+        return Token(Token::Kind::LessThanOrEqual, m_line_lex, text.substr(start, 2));
     } else {
-        return Token(Token::Kind::LessThan, m_line_lex, start, 1);
+        return Token(Token::Kind::LessThan, m_line_lex, text[start]);
     }
 }
 
 Token Lexer::greater_than_or_equal() {
-    const char * start = m_beg;
+    unsigned int start = current;
     get();
     if (peek() == '=') {
         get(); // transition to next token
-        return Token(Token::Kind::GreaterThanOrEqual, m_line_lex, start, 2);
+        return Token(Token::Kind::GreaterThanOrEqual, m_line_lex, text.substr(start, 2));
     } else {
-        return Token(Token::Kind::GreaterThan, m_line_lex, start, 1);
+        return Token(Token::Kind::GreaterThan, m_line_lex, text[start]);
     }
 }
 
 Token Lexer::equal() {
-    const char * start = m_beg;
+    unsigned int start = current;
     get();
     if (peek() == '=') {
         get(); // transition to next token
-        return Token(Token::Kind::DoubleEqual, m_line_lex, start, 2);
+        return Token(Token::Kind::DoubleEqual, m_line_lex, text.substr(start, 2));
     } else {
-        return Token(Token::Kind::Equal, m_line_lex, start, 1);
+        return Token(Token::Kind::Equal, m_line_lex, text[start]);
     }
 }
 
 Token Lexer::string() {
-    const char * start = m_beg;
+    unsigned int start = current;
     get(); // consume LHS double quote
     while (peek() != '"' && !is_end()) {
         if (peek() == '\n') ++m_line_lex;
@@ -209,8 +216,8 @@ Token Lexer::string() {
 
     get(); // consume RHS double quote
 
-    return Token(Token::Kind::String, m_line_lex, start + 1, 
-            std::distance(start, m_beg) - 2);
+    return Token(Token::Kind::String, m_line_lex,
+            text.substr(start + 1, current - start - 2));
 }
 
 Token Lexer::next() {
@@ -221,7 +228,7 @@ Token Lexer::next() {
 
     switch (peek()) {
         case '\0':
-            return Token(Token::Kind::End, m_line_lex, m_beg, 1);
+            return Token(Token::Kind::End, m_line_lex, peek());
         default:
             return atom(Token::Kind::Unexpected);
         case 'a':

@@ -7,13 +7,18 @@
 #include "ast.hpp"
 
 
-class ASTPrinter: ASTVisitor<std::string> {
+class ASTPrinter: public ASTVisitor<std::string> {
     public:
         std::string visitExpr(Expr* expr);
-        std::string visitIdentifier(Identifier* id);
+        std::string visitLiteral(Literal* literal);
         std::string visitBinaryExpr(BinaryExpr* bin_expr);
         std::string visitUnaryExpr(UnaryExpr* unary_expr);
         std::string visitGroupingExpr(GroupingExpr* group_expr);
+
+        // For testing only
+        std::string print(Expr* expr) {
+            return expr->accept(this);
+        }
 };
 
 #endif

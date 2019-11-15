@@ -4,7 +4,7 @@
 
 // Forward declaration of all classes to be visited
 class Expr;
-class Identifier;
+class Literal;
 class BinaryExpr;
 class UnaryExpr;
 class GroupingExpr;
@@ -18,7 +18,7 @@ template <class T>
 class ASTVisitor {
     public:
         virtual T visitExpr(Expr* expr) = 0;
-        virtual T visitIdentifier(Identifier* id) = 0;
+        virtual T visitLiteral(Literal* literal) = 0;
         virtual T visitBinaryExpr(BinaryExpr* bin_expr) = 0;
         virtual T visitUnaryExpr(UnaryExpr* unary_expr) = 0;
         virtual T visitGroupingExpr(GroupingExpr* group_expr) = 0;

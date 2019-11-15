@@ -36,10 +36,9 @@ class Lexer {
         Token greater_than_or_equal();
         Token equal();
 
-        char peek() { return *m_beg; }
+        char peek() { return text[current]; }
         char get() {
-            ++current;
-            return *m_beg++;
+            return text[current++];
         }
 
         bool is_end() { return current >= text.length() || peek() == '\0'; }
@@ -48,7 +47,6 @@ class Lexer {
 
         std::string text;
 
-        const char * m_beg = nullptr;
         unsigned int m_line_lex = 1;
         unsigned int current = 0;
 

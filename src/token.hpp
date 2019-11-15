@@ -46,11 +46,11 @@ class Token {
         Token(Kind kind, unsigned int line)
             : m_kind{kind}, m_line{line} {}
 
-        Token(Kind kind, unsigned int line, const char* beg, size_t len)
-            : m_kind(kind), m_line(line), m_lexeme(beg, len) {}
+        Token(Kind kind, unsigned int line, std::string lexeme)
+            : m_kind(kind), m_line(line), m_lexeme(lexeme) {}
 
-        Token(Kind kind, unsigned int line, const char* beg, const char* end)
-            : m_kind(kind), m_line(line), m_lexeme(beg, std::distance(beg, end)) {}
+        Token(Kind kind, unsigned int line, char c)
+            : m_kind(kind), m_line(line), m_lexeme(std::string(1, c)) {}
 
         unsigned int on_line() { return m_line; }
 
@@ -69,7 +69,7 @@ class Token {
             return is(kind1) || is_one_of(kind2, ks...);
         }
 
-        std::string lexeme() const {
+        std::string lexeme() {
             return m_lexeme;
         }
 

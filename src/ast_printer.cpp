@@ -1,21 +1,24 @@
 #include "ast_printer.hpp"
 
-std::string visitExpr(Expr* expr) {
+std::string ASTPrinter::visitExpr(Expr* expr) {
     return expr->accept(this);
 }
 
-std::string visitIdentifier(Identifier* id) {
+std::string ASTPrinter::visitLiteral(Literal* id) {
     return id->m_token.lexeme();
 }
 
-std::string visitBinaryExpr() {
-    
+std::string ASTPrinter::visitBinaryExpr(BinaryExpr* bin_expr) {
+    return bin_expr->m_left->accept(this) 
+        + bin_expr->m_op.lexeme() 
+        + bin_expr->m_right->accept(this);
 }
 
-std::string visitUnaryExpr() {
-
+std::string ASTPrinter::visitUnaryExpr(UnaryExpr* unary_expr) {
+    return unary_expr->m_op.lexeme() 
+        + unary_expr->m_right->accept(this);
 }
 
-std::string visitGroupingExpr() {
-
+std::string ASTPrinter::visitGroupingExpr(GroupingExpr* grouping_expr) {
+    return "(" + grouping_expr->m_expr->accept(this)  + ")";
 }

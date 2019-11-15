@@ -11,20 +11,20 @@
  */
 class Expr {
     public:
-        virtual std::string accept(Visitor<std::string>* visitor) = 0;
+        virtual std::string accept(ASTVisitor<std::string>* visitor) = 0;
 };
 
 
 /**
- * Identifier is an expression.
+ * Literal is an expression.
  */
-class Identifier: public Expr {
+class Literal: public Expr {
     public:
-        Identifier(Token token)
+        Literal(Token token)
             : m_token{token} { }
 
-        std::string accept(Visitor<std::string>* visitor) {
-            return visitor->visitIdentifier(this);
+        std::string accept(ASTVisitor<std::string>* visitor) {
+            return visitor->visitLiteral(this);
         }
 
         // Fields
@@ -39,7 +39,11 @@ class BinaryExpr: public Expr {
         BinaryExpr(Expr* left, Token op, Expr* right)
             : m_left{left}, m_op{op}, m_right{right} { }
 
-    private:
+        std::string accept(ASTVisitor<std::string>* visitor) {
+            return visitor->visitBinaryExpr(this);
+        }
+
+        // Fields
         Expr* m_left;
         Token m_op;
         Expr* m_right;
@@ -54,7 +58,11 @@ class UnaryExpr: public Expr {
         UnaryExpr(Token op, Expr* right)
             : m_op{op}, m_right{right} { }
 
-    private:
+        std::string accept(ASTVisitor<std::string>* visitor) {
+            return visitor->visitUnaryExpr(this);
+        }
+
+        // Fields
         Token m_op;
         Expr* m_right;
 };
@@ -68,7 +76,11 @@ class GroupingExpr: public Expr {
         GroupingExpr(Expr* expr)
             : m_expr{expr} { }
 
-    private:
+        std::string accept(ASTVisitor<std::string>* visitor) {
+            return visitor->visitGroupingExpr(this);
+        }
+
+        // Fields
         Expr* m_expr;
 };
 
