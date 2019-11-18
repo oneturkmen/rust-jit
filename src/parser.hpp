@@ -12,6 +12,8 @@ class Parser {
         Parser(std::vector<Token> tokens)
             : m_tokens{tokens} { }
 
+        // TODO: Include error handling (exceptions for panic mode + sync)
+        Expr* parse() { return expression(); }
 
     // Rules
     private:

@@ -108,16 +108,19 @@ bool is_digit(char c) {
 // -------------- END ---------------
 
 
-Lexer::Lexer(const std::string& file_name) {
+Lexer::Lexer(const std::string& source) {
     // Read into buffer and store as a single string
     // inside the class.
+
+    /*TODO: this is for files only
     source.open(file_name);
 
     std::stringstream buffer;
 
     buffer << source.rdbuf();
 
-    text = std::move(buffer.str());
+    text = buffer.str();*/
+    text = source;
 }
 
 // Atomic lexemes

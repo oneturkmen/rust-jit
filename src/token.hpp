@@ -74,7 +74,7 @@ class Token {
         }
 
         void lexeme(std::string lex) {
-            m_lexeme = std::move(lex);
+            m_lexeme = lex;
         }
 
     private:
