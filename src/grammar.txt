@@ -1,0 +1,45 @@
+program:
+    declaration* EOF ;
+
+declaration:
+    varDecl
+    | statement ;
+
+varDecl:
+    "let" IDENTIFIER ("=" expression)? ";" ; // we should later add explicit type declaration
+
+statement:
+    exprStmt
+    | printStmt ;
+
+exprStmt:
+    expression ";" ;
+
+printStmt:
+    "print" expression ";" ;
+
+expression:
+    assignment ;
+
+assignment:
+    IDENTIFIER "=" assignment
+    | equality ;
+
+equality:
+    comparison ("==" comparison) * ;
+
+comparison:
+    addition (("<=" | ">=" | "<" | ">") addition) * ;
+
+addition:
+    multiplication (("+" | "-") multiplication) * ;
+
+multiplication:
+    unary (("/" | "*") unary) * ;
+
+unary:
+    ("*" | "-" | "&") unary
+    | primary ;
+
+primary:
+    IDENTIFIER | NUMBER | STRING | "(" expression ")" ;
