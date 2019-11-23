@@ -139,6 +139,9 @@ Token Lexer::identifier() {
     if (keyword.compare("print") == 0) {
         return Token(Token::Kind::Print, m_line_lex, keyword);
     } 
+    else if (keyword.compare("let") == 0) {
+        return Token(Token::Kind::Let, m_line_lex, keyword);
+    }
 
     return Token(
             Token::Kind::Identifier,

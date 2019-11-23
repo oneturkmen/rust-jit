@@ -20,6 +20,29 @@ class Stmt {
 
 
 /**
+ * Class for variable declaration.
+ */
+class VarDeclStmt: public Stmt {
+    public:
+        VarDeclStmt(Token name, Expr* initializer)
+            : m_name{name}, m_initializer{initializer} { }
+
+        // For AST printer
+        std::string accept(ASTVisitor<std::string>* visitor) {
+            return visitor->visitVarDeclStmt(this);
+        }
+
+        // For Interpreter
+        Object* accept(ASTVisitor<Object*>* visitor) {
+            return visitor->visitVarDeclStmt(this);
+        }
+
+        Token m_name;
+        Expr* m_initializer;
+};
+
+
+/**
  * Class for expression statement (one with ';').
  */
 class ExprStmt: public Stmt {
@@ -95,6 +118,56 @@ class Literal: public Expr {
         // Fields
         Token m_token;
 };
+
+
+/**
+ * Identifier (for some variable).
+ */
+class Identifier: public Expr {
+    public:
+        Identifier(Token token)
+            : m_token{token} { }
+
+        // For AST printer
+        std::string accept(ASTVisitor<std::string>* visitor) {
+            return visitor->visitIdentifier(this);
+        }
+
+        // For Interpreter
+        Object* accept(ASTVisitor<Object*>* visitor) {
+            std::cout << "In Identifier::accept(Object *)\n";
+            return visitor->visitIdentifier(this);
+        }
+
+        Token m_token;
+};
+
+
+/**
+ * Assignment is an expression, which bugs my mind.
+ * I guess you can treat is a mathematical operation with
+ * "=" as an operator and two operands (l-value and r-value).
+ */
+class AssignExpr: public Expr {
+    public:
+        AssignExpr(Token token, Expr* expr)
+            : m_token{token}, m_expr{expr} { }
+
+        // For AST printer
+        std::string accept(ASTVisitor<std::string>* visitor) {
+            return visitor->visitAssignExpr(this);
+        }
+
+        // For Interpreter
+        Object* accept(ASTVisitor<Object*>* visitor) {
+            std::cout << "In AssignExpr::accept(Object *)\n";
+            return visitor->visitAssignExpr(this);
+        }
+
+        Token m_token;
+        Expr* m_expr;
+};
+
 
 /**
  * Binary expression.

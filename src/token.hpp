@@ -8,6 +8,7 @@ class Token {
     public:
         enum Kind {
             // Keywords
+            Let,
             Print,
 
             // Literals

@@ -2,12 +2,40 @@
 
 std::vector<Stmt*> Parser::parse() {
     std::vector<Stmt*> stmts;
-    
+
     while (!Parser::is_end()) {
-        stmts.push_back(statement());
+        stmts.push_back(declaration());
     }
 
     return stmts;
+}
+
+Stmt* Parser::declaration() {
+    if (match(Token::Kind::Let)) {
+        return varDeclaration();
+    }
+
+    return statement();
+}
+
+Stmt* Parser::varDeclaration() {
+    Token name = get();
+
+    Expr* initializer = nullptr;
+
+    if (!match(Token::Kind::Equal)) {
+        std::cout << "Error: '=' expected after 'let'! Cannot infer type without it.\n";
+        throw "Error: '=' expected after 'let'! Cannot infer type without it.\n";
+    }
+
+    initializer = expression();
+
+    if (!match(Token::Kind::Semicolon)) {
+        std::cout << "Error: ';' expected after expression!\n";
+        throw "Expected ';' after expression!";
+    }
+
+    return new VarDeclStmt(name, initializer);
 }
 
 Stmt* Parser::statement() {
@@ -21,7 +49,7 @@ Stmt* Parser::statement() {
 
 Stmt* Parser::exprStmt() {
     Expr* expr = expression();
-    
+
     if (!match(Token::Kind::Semicolon)) {
         std::cout << "Error: ';' expected after expression!\n";
         throw "Expected ';' after expression!";
@@ -42,7 +70,27 @@ Stmt* Parser::printStmt() {
 }
 
 Expr* Parser::expression() {
-    return equality();
+    return assignment();
+}
+
+Expr* Parser::assignment() {
+     // Parse LHS if next token is "=".
+     // This should be identifier if next token is "=".
+     // Otherwise, it's treated as RHS (r-value).
+    Expr* expr = equality();
+
+    if (match(Token::Kind::Equal)) {
+        Expr* value = assignment(); // parse RHS
+
+        if (dynamic_cast<Identifier*>(expr)) {
+            Token name = dynamic_cast<Identifier*>(expr)->m_token;
+            return new AssignExpr(name, value);
+        }
+
+        std::cout << "ERROR: Invalid left-hand side assignment!\n";
+    }
+
+    return expr;
 }
 
 Expr* Parser::equality() {
@@ -113,10 +161,13 @@ Expr* Parser::unary() {
 
 Expr* Parser::primary() {
     // Keywords
-    if (match(Token::Kind::Number) 
-        || match(Token::Kind::String)
-        || match(Token::Kind::Identifier)) {
+    if (match(Token::Kind::Number) || match(Token::Kind::String)) {
         return new Literal(previous());
+    }
+
+    // Identifier corresponds to a variable
+    if (match(Token::Kind::Identifier)) {
+        return new Identifier(previous());
     }
 
     if (match(Token::Kind::LeftParen)) {

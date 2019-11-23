@@ -17,10 +17,13 @@ class Parser {
 
     // Rules
     private:
+        Stmt* declaration();
+        Stmt* varDeclaration();
         Stmt* statement();
         Stmt* exprStmt();
         Stmt* printStmt();
         Expr* expression();
+        Expr* assignment();
         Expr* equality();
         Expr* comparison();
         Expr* addition();

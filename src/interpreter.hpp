@@ -7,6 +7,7 @@
 
 #include "ast.hpp"
 #include "ast_visitor.hpp"
+#include "environment.hpp"
 #include "object.hpp"
 #include "token.hpp" // TODO: remove this (used in visitLiteral)
 
@@ -27,9 +28,12 @@ class Interpreter : ASTVisitor<Object*> {
             // does nothing
         }
 
+        Object* visitVarDeclStmt(VarDeclStmt* varDeclStmt);
         Object* visitExprStmt(ExprStmt* exprStmt);
         Object* visitPrintStmt(PrintStmt* printStmt);
         Object* visitExpr(Expr* expr);
+        Object* visitAssignExpr(AssignExpr* assign_expr);
+        Object* visitIdentifier(Identifier* identifier);
         Object* visitLiteral(Literal* literal);
         Object* visitBinaryExpr(BinaryExpr* bin_expr);
         Object* visitUnaryExpr(UnaryExpr* unary_expr);
@@ -49,6 +53,9 @@ class Interpreter : ASTVisitor<Object*> {
             std::cout << "Accepting expression in evaluate()\n";
             return expr->accept(this);
         }
+
+    private:
+        Environment env;
 };
 
 #endif

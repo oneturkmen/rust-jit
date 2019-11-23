@@ -19,7 +19,11 @@ printStmt:
     "print" expression ";" ;
 
 expression:
-    equality ;
+    assignment ;
+
+assignment:
+    IDENTIFIER "=" assignment
+    | equality ;
 
 equality:
     comparison ("==" comparison) * ;

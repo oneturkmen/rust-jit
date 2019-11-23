@@ -23,6 +23,24 @@ void Interpreter::interpret(std::vector<Stmt*> stmts) {
 //     return evaluate(statement->accept(this));
 // }
 
+Object* Interpreter::visitVarDeclStmt(VarDeclStmt *varDeclStmt) {
+    std::cout << "visitVarDeclStmt()\n";
+    Object* value = nullptr;
+
+    if (varDeclStmt->m_initializer == nullptr) {
+        std::cout << "Initializer expression for variable assigment is empty!\n";
+        throw "Initializer expression for variable assigment is empty!\n";
+    }
+
+    // Evaluate
+    value = evaluate(varDeclStmt->m_initializer);
+
+    // Store in the environment
+    env.define(varDeclStmt->m_name.lexeme(), value);
+
+    return value;
+}
+
 Object* Interpreter::visitExprStmt(ExprStmt* exprStmt) {
     std::cout << "visitExprStmt()\n";
     return evaluate(exprStmt->m_expr);
@@ -38,6 +56,22 @@ Object* Interpreter::visitPrintStmt(PrintStmt* printStmt) {
     return nullptr;
 }
 
+Object* Interpreter::visitAssignExpr(AssignExpr* assign_expr) {
+    std::cout << "visitAssignExpr()\n";
+    Object* result = evaluate(assign_expr->m_expr);
+
+    env.define(assign_expr->m_token.lexeme(), result);
+
+    return result;
+}
+
+Object* Interpreter::visitIdentifier(Identifier* identifier) {
+    std::cout << "visitIdentifier() <-> Variable Expression\n";
+    Token token = identifier->m_token;
+    
+    return env.lookup(token.lexeme());
+}
+ 
 Object* Interpreter::visitLiteral(Literal* literal) {
     std::cout << "visitLiteral()\n";
     Token curr_token = literal->m_token;
