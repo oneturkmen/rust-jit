@@ -1,13 +1,14 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
+#include <iostream>
 #include <string>
 
 /**
  * Wrappers around primitive types
  * that hold type information and
  * values.
- * 
+ *
  * Reference: @rpshukla/napkin
  **/
 
@@ -15,6 +16,7 @@
 class Object {
     public:
         virtual std::string value() = 0;
+        virtual void print() = 0;
 
         enum Type {
             NUMBER,
@@ -36,19 +38,28 @@ class Number : public Object {
             return std::to_string(m_value);
         }
 
+        void print() {
+            // Display thyself.
+            std::cout << m_value << "\n";
+        }
+
         int m_value;
 };
 
 
 class String : public Object {
     public:
-        String(std::string value) 
+        String(std::string value)
             : m_value{value} {
             type = STRING;
         }
 
         std::string value() {
             return m_value;
+        }
+
+        void print() {
+            std::cout << "\"" << m_value << "\"\n";
         }
 
         std::string m_value;

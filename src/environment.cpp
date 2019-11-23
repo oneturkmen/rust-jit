@@ -19,8 +19,8 @@ void Environment::define(std::string name, Value value) {
     return;
 }
 
-void Environment::assign(std::string name, Object* value) {
-    if (name.empty() || value == nullptr) {
+void Environment::assign(std::string name, Object* object) {
+    if (name.empty() || object == nullptr) {
         std::cout << "ERROR: name or value cannot be empty! name = "
                   << name << "\n";
         return;
@@ -34,18 +34,19 @@ void Environment::assign(std::string name, Object* value) {
     }
 
     // Retrieve current object and re-assign.
-    // FIXME: this is ugly.
-    bool current_mutable = env[name]._mutable;
+    bool is_mutable = env[name]._mutable;
+    Object* target  = env[name].value;
 
-    if (!current_mutable) {
+    if (!is_mutable) {
         std::cout << "ERROR: Variable is immutable, cannot re-assign!\n";
         return;
     }
+    if (object->type != target->type) {
+        std::cout << "ERROR: L-value and R-value types are different!\n";
+        return;
+    }
 
-    env[name] = {
-        current_mutable,
-        value,
-    };
+    env[name].value = object;
 
     return;
 }
@@ -55,7 +56,7 @@ Object* Environment::lookup(std::string name) {
         std::cout << "ERROR: Name cannot be empty!\n";
         throw;
     }
-    
+
     try {
         return env[name].value;
     } catch (std::out_of_range) {

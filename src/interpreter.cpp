@@ -53,8 +53,9 @@ Object* Interpreter::visitPrintStmt(PrintStmt* printStmt) {
     Object* result = evaluate(printStmt->m_expr);
    
     if (result == nullptr) return nullptr;
+
     // Print the result of evaluation
-    std::cout << result->value() << "\n";
+    result->print();
 
     return nullptr;
 }
