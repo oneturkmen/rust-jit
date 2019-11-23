@@ -24,8 +24,8 @@ class Stmt {
  */
 class VarDeclStmt: public Stmt {
     public:
-        VarDeclStmt(Token name, Expr* initializer)
-            : m_name{name}, m_initializer{initializer} { }
+        VarDeclStmt(Token name, Expr* initializer, bool _mutable)
+            : m_name{name}, m_initializer{initializer}, m_mutable{_mutable} { }
 
         // For AST printer
         std::string accept(ASTVisitor<std::string>* visitor) {
@@ -39,6 +39,7 @@ class VarDeclStmt: public Stmt {
 
         Token m_name;
         Expr* m_initializer;
+        bool m_mutable;
 };
 
 

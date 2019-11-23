@@ -9,12 +9,14 @@ class Token {
         enum Kind {
             // Keywords
             Let,
+            Mut,
             Print,
 
             // Literals
             Identifier,
             Number,
-
+            
+            // Brackets
             LeftParen,
             RightParen,
             LeftCurly,

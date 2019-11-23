@@ -19,8 +19,11 @@ Stmt* Parser::declaration() {
 }
 
 Stmt* Parser::varDeclaration() {
-    Token name = get();
+    // If current token is "mut", then
+    // variable is mutable. Apparently, it's also a C++ keyword.
+    bool _mutable = match(Token::Kind::Mut);
 
+    Token name = get();
     Expr* initializer = nullptr;
 
     if (!match(Token::Kind::Equal)) {
@@ -35,7 +38,7 @@ Stmt* Parser::varDeclaration() {
         throw "Expected ';' after expression!";
     }
 
-    return new VarDeclStmt(name, initializer);
+    return new VarDeclStmt(name, initializer, _mutable);
 }
 
 Stmt* Parser::statement() {
