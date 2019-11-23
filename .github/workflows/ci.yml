@@ -1,0 +1,20 @@
+name: rust-jit-ci
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Generate Makefile build system.
+      run: |
+        mkdir build
+        cd build
+        cmake ..
+    - name: Make sure "make" does not throw any exceptions.
+      run: |
+        cd build
+        make
