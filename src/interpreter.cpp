@@ -36,7 +36,10 @@ Object* Interpreter::visitVarDeclStmt(VarDeclStmt *varDeclStmt) {
     value = evaluate(varDeclStmt->m_initializer);
 
     // Store in the environment
-    env.define(varDeclStmt->m_name.lexeme(), value);
+    std::string var_name = varDeclStmt->m_name.lexeme();
+    bool is_mutable = varDeclStmt->m_mutable;
+
+    env.define(var_name, { is_mutable, value });
 
     return value;
 }
@@ -60,7 +63,7 @@ Object* Interpreter::visitAssignExpr(AssignExpr* assign_expr) {
     std::cout << "visitAssignExpr()\n";
     Object* result = evaluate(assign_expr->m_expr);
 
-    env.define(assign_expr->m_token.lexeme(), result);
+    env.assign(assign_expr->m_token.lexeme(), result);
 
     return result;
 }

@@ -11,6 +11,7 @@
 std::ostream& operator<<(std::ostream& os, const Token::Kind& kind) {
     static const char * const names[]{
             "Let",
+            "Mut",
             "Print",
             "Identifier",
             "Number",

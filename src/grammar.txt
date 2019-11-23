@@ -6,7 +6,7 @@ declaration:
     | statement ;
 
 varDecl:
-    "let" IDENTIFIER ("=" expression)? ";" ; // we should later add explicit type declaration
+    "let" ("mut")? IDENTIFIER ("=" expression)? ";" ; // we should later add explicit type declaration
 
 statement:
     exprStmt
