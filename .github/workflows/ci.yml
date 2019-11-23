@@ -13,7 +13,7 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake ..
+        cmake ../src
     - name: Make sure "make" does not throw any exceptions.
       run: |
         cd build
