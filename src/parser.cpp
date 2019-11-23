@@ -1,5 +1,45 @@
-
 #include "parser.hpp"
+
+std::vector<Stmt*> Parser::parse() {
+    std::vector<Stmt*> stmts;
+    
+    while (!Parser::is_end()) {
+        stmts.push_back(statement());
+    }
+
+    return stmts;
+}
+
+Stmt* Parser::statement() {
+    // All language-defined keywords are listed here
+    if (match(Token::Kind::Print)) {
+        return printStmt();
+    }
+
+    return exprStmt();
+}
+
+Stmt* Parser::exprStmt() {
+    Expr* expr = expression();
+    
+    if (!match(Token::Kind::Semicolon)) {
+        std::cout << "Error: ';' expected after expression!\n";
+        throw "Expected ';' after expression!";
+    }
+
+    return new ExprStmt(expr);
+}
+
+Stmt* Parser::printStmt() {
+    Expr* expr = expression();
+
+    if (!match(Token::Kind::Semicolon)) {
+        std::cout << "Error: ';' expected after expression!\n";
+        throw "Expected ';' after expression!";
+    }
+
+    return new PrintStmt(expr);
+}
 
 Expr* Parser::expression() {
     return equality();
@@ -73,7 +113,9 @@ Expr* Parser::unary() {
 
 Expr* Parser::primary() {
     // Keywords
-    if (match(Token::Kind::Number) || match(Token::Kind::String)) {
+    if (match(Token::Kind::Number) 
+        || match(Token::Kind::String)
+        || match(Token::Kind::Identifier)) {
         return new Literal(previous());
     }
 
@@ -87,6 +129,8 @@ Expr* Parser::primary() {
 
         return new GroupingExpr(expr);
     }
+
+    return nullptr;
 }
 
 Token Parser::previous() {

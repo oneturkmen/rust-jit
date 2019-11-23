@@ -13,11 +13,13 @@ class Parser {
             : m_tokens{tokens} { }
 
         // TODO: Include error handling (exceptions for panic mode + sync)
-        Expr* parse() { return expression(); }
+        std::vector<Stmt*> parse();
 
     // Rules
     private:
-        
+        Stmt* statement();
+        Stmt* exprStmt();
+        Stmt* printStmt();
         Expr* expression();
         Expr* equality();
         Expr* comparison();
@@ -25,7 +27,7 @@ class Parser {
         Expr* multiplication();
         Expr* unary();
         Expr* primary();
-        
+
 
         // Helpers
         Token previous();

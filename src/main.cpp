@@ -10,6 +10,7 @@
 
 std::ostream& operator<<(std::ostream& os, const Token::Kind& kind) {
     static const char * const names[]{
+            "Print",
             "Identifier",
             "Number",
             "LeftParen",
@@ -63,7 +64,7 @@ int main() {
 
         // Parse into a tree
         Parser parser(tokens);
-        Expr* parse_tree = parser.parse();
+        std::vector<Stmt*> parse_tree = parser.parse();
 
         // Print the contents
         //ASTPrinter printer;

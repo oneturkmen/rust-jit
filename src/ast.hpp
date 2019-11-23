@@ -8,6 +8,61 @@
 #include "ast_visitor.hpp"
 #include "object.hpp"
 
+
+/**
+ * Base class for all types of statements.
+ */
+class Stmt {
+    public:
+        virtual std::string accept(ASTVisitor<std::string>* visitor) = 0;
+        virtual Object* accept(ASTVisitor<Object*>* visitor) = 0;
+};
+
+
+/**
+ * Class for expression statement (one with ';').
+ */
+class ExprStmt: public Stmt {
+    public:
+        ExprStmt(Expr* expr)
+            : m_expr{expr} { }
+
+        // For AST printer
+        std::string accept(ASTVisitor<std::string>* visitor) {
+            return visitor->visitExprStmt(this);
+        }
+
+        // For Interpreter
+        Object* accept(ASTVisitor<Object*>* visitor) {
+            return visitor->visitExprStmt(this);
+        }
+
+        Expr* m_expr;
+};
+
+
+/**
+ * Class for print statement.
+ */
+class PrintStmt: public Stmt {
+    public:
+        PrintStmt(Expr* expr)
+            : m_expr{expr} { }
+
+        // For AST printer
+        std::string accept(ASTVisitor<std::string>* visitor) {
+            return visitor->visitPrintStmt(this);
+        }
+
+        // For Interpreter
+        Object* accept(ASTVisitor<Object*>* visitor) {
+            return visitor->visitPrintStmt(this);
+        }
+
+        Expr* m_expr;
+};
+
+
 /**
  * Base class for all expressions.
  */

@@ -42,8 +42,9 @@ class Number : public Object {
 
 class String : public Object {
     public:
-        String(std::string s) {
-            m_value = s;
+        String(std::string value) 
+            : m_value{value} {
+            type = STRING;
         }
 
         std::string value() {

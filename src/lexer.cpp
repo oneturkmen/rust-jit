@@ -132,6 +132,14 @@ Token Lexer::identifier() {
     unsigned int start = current;
     get();
     while (is_identifier_char(peek())) get();
+
+    // Handle language keywords
+    std::string keyword = text.substr(start, current - start);
+
+    if (keyword.compare("print") == 0) {
+        return Token(Token::Kind::Print, m_line_lex, keyword);
+    } 
+
     return Token(
             Token::Kind::Identifier,
             m_line_lex,
@@ -170,6 +178,8 @@ Token Lexer::slash_or_comment() {
                 m_line_lex,
                 text[start]);
     }
+
+    throw "Unreachable"; // unreachable?
 }
 
 Token Lexer::less_than_or_equal() {

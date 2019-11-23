@@ -1,12 +1,45 @@
 #include "interpreter.hpp"
 
-void Interpreter::interpret(Expr* expr) {
-    Object* obj = evaluate(expr);
-    std::cout << obj->value() << "\n";
+void Interpreter::interpret(std::vector<Stmt*> stmts) {
+
+    std::cout << "# of stmts: " << stmts.size() << std::endl;
+    for (auto stmt : stmts) {
+        execute(stmt);
+    }
+    
+
+
+    // Object* obj = evaluate(expr);
+
+    // if (obj == nullptr) {
+    //     std::cout << "Warning: obj in interpret() is null!\n";
+    //     return;
+    // }
+    // std::cout << obj->value() << "\n";
+}
+
+// FIXME: make it more consistent
+// Object* Interpreter::visitStmt(Stmt* statement) {
+//     return evaluate(statement->accept(this));
+// }
+
+Object* Interpreter::visitExprStmt(ExprStmt* exprStmt) {
+    std::cout << "visitExprStmt()\n";
+    return evaluate(exprStmt->m_expr);
+}
+
+Object* Interpreter::visitPrintStmt(PrintStmt* printStmt) {
+    Object* result = evaluate(printStmt->m_expr);
+   
+    if (result == nullptr) return nullptr;
+    // Print the result of evaluation
+    std::cout << result->value() << "\n";
+
+    return nullptr;
 }
 
 Object* Interpreter::visitLiteral(Literal* literal) {
-    std::cout << "visitUnaryExpr()\n";
+    std::cout << "visitLiteral()\n";
     Token curr_token = literal->m_token;
 
     if (curr_token.is(Token::Kind::Number)) {
@@ -34,7 +67,7 @@ Object* Interpreter::visitUnaryExpr(UnaryExpr* unary_expr) {
             return new Number(-std::stoi(right->value()));
         // TODO
         // case "*":
-        // case "&"
+        // case "&": address_of? or simple store in a map like points-to?
     }
 
     return nullptr; // unreachable
@@ -57,6 +90,10 @@ Object* Interpreter::visitBinaryExpr(BinaryExpr* bin_expr) {
             else if (left->type == Object::Type::STRING
                 && right->type == Object::Type::STRING) {
                 return new String(left->value() + right->value());
+            }
+            else {
+                std::cout << "Error: Mismatched types!\n";
+                return nullptr;
             }
         }
         case Token::Kind::Slash:

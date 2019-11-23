@@ -1,5 +1,13 @@
 #include "ast_printer.hpp"
 
+std::string ASTPrinter::visitExprStmt(ExprStmt* exprStmt) {
+    return exprStmt->accept(this);
+}
+
+std::string ASTPrinter::visitPrintStmt(PrintStmt* printStmt) {
+    return printStmt->accept(this);
+}
+
 std::string ASTPrinter::visitExpr(Expr* expr) {
     return expr->accept(this);
 }

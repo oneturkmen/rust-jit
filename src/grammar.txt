@@ -1,3 +1,23 @@
+program:
+    declaration* EOF ;
+
+declaration:
+    varDecl
+    | statement ;
+
+varDecl:
+    "let" IDENTIFIER ("=" expression)? ";" ; // we should later add explicit type declaration
+
+statement:
+    exprStmt
+    | printStmt ;
+
+exprStmt:
+    expression ";" ;
+
+printStmt:
+    "print" expression ";" ;
+
 expression:
     equality ;
 
@@ -18,4 +38,4 @@ unary:
     | primary ;
 
 primary:
-    NUMBER | STRING | "(" expression ")" ;
+    IDENTIFIER | NUMBER | STRING | "(" expression ")" ;

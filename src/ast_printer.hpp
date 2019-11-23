@@ -9,6 +9,8 @@
 
 class ASTPrinter: public ASTVisitor<std::string> {
     public:
+        std::string visitExprStmt(ExprStmt *exprStmt);
+        std::string visitPrintStmt(PrintStmt *printStmt);
         std::string visitExpr(Expr* expr);
         std::string visitLiteral(Literal* literal);
         std::string visitBinaryExpr(BinaryExpr* bin_expr);
