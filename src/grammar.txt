@@ -38,7 +38,7 @@ multiplication:
     unary (("/" | "*") unary) * ;
 
 unary:
-    ("*" | "-" | "&") unary
+    ("*" | "-" | "&" | "&mut") unary
     | primary ;
 
 primary:

@@ -1,21 +1,10 @@
 #include "interpreter.hpp"
 
 void Interpreter::interpret(std::vector<Stmt*> stmts) {
-
     std::cout << "# of stmts: " << stmts.size() << std::endl;
     for (auto stmt : stmts) {
         execute(stmt);
     }
-    
-
-
-    // Object* obj = evaluate(expr);
-
-    // if (obj == nullptr) {
-    //     std::cout << "Warning: obj in interpret() is null!\n";
-    //     return;
-    // }
-    // std::cout << obj->value() << "\n";
 }
 
 // FIXME: make it more consistent
@@ -39,7 +28,13 @@ Object* Interpreter::visitVarDeclStmt(VarDeclStmt *varDeclStmt) {
     std::string var_name = varDeclStmt->m_name.lexeme();
     bool is_mutable = varDeclStmt->m_mutable;
 
-    env.define(var_name, { is_mutable, value });
+    Reference* ref = dynamic_cast<Reference*>(value);
+
+    if (ref) {
+        env.reference(var_name, ref->to, ref->_mutable);
+    } else {
+        env.define(var_name, { is_mutable, false, false, value });
+    }
 
     return value;
 }
@@ -51,7 +46,7 @@ Object* Interpreter::visitExprStmt(ExprStmt* exprStmt) {
 
 Object* Interpreter::visitPrintStmt(PrintStmt* printStmt) {
     Object* result = evaluate(printStmt->m_expr);
-   
+
     if (result == nullptr) return nullptr;
 
     // Print the result of evaluation
@@ -72,17 +67,17 @@ Object* Interpreter::visitAssignExpr(AssignExpr* assign_expr) {
 Object* Interpreter::visitIdentifier(Identifier* identifier) {
     std::cout << "visitIdentifier() <-> Variable Expression\n";
     Token token = identifier->m_token;
-    
+
     return env.lookup(token.lexeme());
 }
- 
+
 Object* Interpreter::visitLiteral(Literal* literal) {
     std::cout << "visitLiteral()\n";
     Token curr_token = literal->m_token;
 
     if (curr_token.is(Token::Kind::Number)) {
         return new Number(std::stoi(curr_token.lexeme()));
-    } 
+    }
     else if (curr_token.is(Token::Kind::String)) {
         return new String(curr_token.lexeme());
     }
@@ -103,6 +98,35 @@ Object* Interpreter::visitUnaryExpr(UnaryExpr* unary_expr) {
     switch (unary_expr->m_op.kind()) {
         case Token::Kind::Minus: // TODO validation of types
             return new Number(-std::stoi(right->value()));
+        case Token::Kind::Ampersand: {
+            Identifier* identifier = dynamic_cast<Identifier*>(unary_expr->m_right);
+            if (identifier) {
+                return new Reference(identifier->m_token.lexeme(), false);
+            }
+            std::cout << "ERROR: RHS is not an identifier!\n";
+            return nullptr;
+        }
+        case Token::Kind::AmpersandMut: {
+            Identifier* identifier = dynamic_cast<Identifier*>(unary_expr->m_right);
+            if (identifier) {
+                return new Reference(identifier->m_token.lexeme(), true);
+            }
+            std::cout << "ERROR: RHS is not an identifier!\n";
+            return nullptr;
+        }
+        case Token::Kind::Asterisk: {
+            // Dereferencing. RHS should be identifier of type Reference.
+
+            // Cast right expression to an identifier.
+            Identifier* identifier = dynamic_cast<Identifier*>(unary_expr->m_right);
+
+            if (identifier) {
+                // Dereference the Object value of the right expression. Uses extra point-to map.
+                Object* value = env.dereference(identifier->m_token.lexeme());
+
+                return value;
+            }
+        }
         // TODO
         // case "*":
         // case "&": address_of? or simple store in a map like points-to?
@@ -120,7 +144,7 @@ Object* Interpreter::visitBinaryExpr(BinaryExpr* bin_expr) {
         case Token::Kind::Minus:
             return new Number(std::stoi(left->value()) - std::stoi(right->value()));
         case Token::Kind::Plus: {
-            if (left->type == Object::Type::NUMBER 
+            if (left->type == Object::Type::NUMBER
                 && right->type == Object::Type::NUMBER) {
                 // TODO: this is ugly - too many type conversions. Find a better way.
                 return new Number(std::stoi(left->value()) + std::stoi(right->value()));
@@ -162,6 +186,8 @@ Object* Interpreter::visitBinaryExpr(BinaryExpr* bin_expr) {
                 (int) (std::stoi(left->value()) == std::stoi(right->value()))
             );
     }
+
+    return nullptr;
 }
 
 Object* Interpreter::visitGroupingExpr(GroupingExpr* group_expr) {

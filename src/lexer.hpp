@@ -21,7 +21,10 @@ class Lexer {
 
     public:
 
+        Lexer() { };
         Lexer(const std::string& file_name);
+
+        void read_file(const std::string& file_name);
 
         Token next();
 
@@ -35,6 +38,9 @@ class Lexer {
         Token less_than_or_equal();
         Token greater_than_or_equal();
         Token equal();
+
+        // Special handlers for grouped characters
+        Token ampersand_mut();
 
         char peek() { return text[current]; }
         char get() {

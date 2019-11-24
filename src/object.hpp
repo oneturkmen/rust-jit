@@ -21,6 +21,7 @@ class Object {
         enum Type {
             NUMBER,
             STRING,
+            REFERENCE,
         };
 
         Type type;
@@ -63,6 +64,31 @@ class String : public Object {
         }
 
         std::string m_value;
+};
+
+/**
+ * Wrapper class for declaration statement
+ * or assignment expression for referencing other
+ * variable.
+ */
+class Reference : public Object {
+    public:
+        Reference(std::string obj_name, bool is_mutable)
+            : to{obj_name}, _mutable{is_mutable} {
+            type = REFERENCE;    
+        }
+
+        std::string value() {
+            // none
+            return "";
+        }
+
+        void print() {
+            // none
+        }
+
+        bool _mutable;
+        std::string to;
 };
 
 #endif

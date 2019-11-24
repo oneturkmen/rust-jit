@@ -107,20 +107,24 @@ bool is_digit(char c) {
 
 // -------------- END ---------------
 
-
+#include <iostream>
 Lexer::Lexer(const std::string& source) {
     // Read into buffer and store as a single string
     // inside the class.
 
-    /*TODO: this is for files only
+    text = source;
+}
+
+void Lexer::read_file(const std::string& file_name) {
+    std::cout << file_name << std::endl;
     source.open(file_name);
 
     std::stringstream buffer;
 
     buffer << source.rdbuf();
 
-    text = buffer.str();*/
-    text = source;
+    std::cout << "text = " << text << std::endl;
+    text = buffer.str();
 }
 
 // Atomic lexemes
@@ -239,6 +243,22 @@ Token Lexer::string() {
             text.substr(start + 1, current - start - 2));
 }
 
+Token Lexer::ampersand_mut() {
+    if (current + 4 >= text.length()) {
+        return Token(Token::Kind::Ampersand, m_line_lex, get());
+    }
+
+    // Check if "&mut" or just "&"
+    std::string pattern = text.substr(current, 4);
+
+    if (pattern.compare("&mut") == 0) {
+        current += 4; // skip "&mut" to next token
+        return Token(Token::Kind::AmpersandMut, m_line_lex, pattern);
+    }
+
+    return Token(Token::Kind::Ampersand, m_line_lex, get());
+}
+
 Token Lexer::next() {
     while (is_space(peek())) {
         if (peek() == '\n') m_line_lex++;
@@ -337,7 +357,7 @@ Token Lexer::next() {
         case '/':
             return slash_or_comment(); // whether division or comment
         case '&':
-            return atom(Token::Kind::Ampersand);
+            return ampersand_mut();
         case ';':
             return atom(Token::Kind::Semicolon);
         case '"':
