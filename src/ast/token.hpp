@@ -1,3 +1,6 @@
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wreorder"
+
 #ifndef TOKEN_H
 #define TOKEN_H
 
@@ -15,7 +18,7 @@ class Token {
             // Literals
             Identifier,
             Number,
-            
+
             // Brackets
             LeftParen,
             RightParen,
@@ -94,3 +97,5 @@ class Token {
 };
 
 #endif
+
+#pragma GCC diagnostic push

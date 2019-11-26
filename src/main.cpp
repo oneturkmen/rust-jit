@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 
-#include "ast_printer.hpp"
+#include "ast/ast_printer.hpp"
 #include "interpreter.hpp"
 #include "lexer.hpp"
 #include "parser.hpp"

@@ -12,8 +12,22 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 
-# Necessary source files
-set(APP_SOURCES main.cpp ast_printer.cpp interpreter.cpp lexer.cpp parser.cpp environment.cpp)
+# Necessary source/header files
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}/ast
+    ${CMAKE_CURRENT_SOURCE_DIR}/interpreter
+    ${CMAKE_CURRENT_SOURCE_DIR}/lexer
+    ${CMAKE_CURRENT_SOURCE_DIR}/parser
+    ${CMAKE_CURRENT_SOURCE_DIR}/utils
+)
+
+set(APP_SOURCES main.cpp 
+    ast/ast_printer.cpp 
+    interpreter/interpreter.cpp 
+    lexer/lexer.cpp 
+    parser/parser.cpp 
+    interpreter/environment.cpp
+)
 
 # Creates ./build/bin/runner
 add_executable(rustjit ${APP_SOURCES})
