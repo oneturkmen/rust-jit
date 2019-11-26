@@ -41,7 +41,7 @@ CTestTestfile.cmake
 # Compiled Static libraries
 *.lai
 *.la
-*.a
+#*.a 
 *.lib
 
 # Executables
