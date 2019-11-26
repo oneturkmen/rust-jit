@@ -87,10 +87,10 @@ class Token {
         }
 
     private:
-
         unsigned int m_line;
         Kind m_kind;
         std::string m_lexeme;
+
 };
 
 #endif
