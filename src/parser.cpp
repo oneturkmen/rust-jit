@@ -153,7 +153,8 @@ Expr* Parser::multiplication() {
 Expr* Parser::unary() {
     if (match(Token::Kind::Ampersand)
         || match(Token::Kind::Asterisk)
-        || match(Token::Kind::Minus)) {
+        || match(Token::Kind::Minus)
+        || match(Token::Kind::AmpersandMut)) {
         Token op = previous();
         Expr* right = unary();
         return new UnaryExpr(op, right);

@@ -42,6 +42,9 @@ class Token {
             Ampersand,
             Semicolon,
             String,
+            
+            // Special groups
+            AmpersandMut,
 
             // Comments, EOF or Errors
             Comment,
