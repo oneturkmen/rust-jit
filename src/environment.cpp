@@ -52,6 +52,7 @@ void Environment::assign(std::string name, Object* object) {
         std::cout << "ERROR: Variable `"
             << name
             << "` is borrowed, cannot re-assign!\n";
+        return;
     }
 
     env[name].value = object;
