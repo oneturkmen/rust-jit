@@ -28,6 +28,7 @@ void Environment::assign(std::string name, Object* object) {
 
     auto found = env.find(name);
 
+    std::cout << "Hello" << object->value() << std::endl;
     if (found == env.end()) {
         std::cout << "ERROR: Cannot assign to non-existent variable!\n";
         return;
@@ -74,6 +75,10 @@ Object* Environment::lookup(std::string name) {
         return env[name].value;
     } catch (std::out_of_range) {
         // TODO: Gotta ask outer scope as well
+
+        if (pointer.find(name) == pointer.end()) {
+            std::cout << "ERROR: Variable `" + name + "`is not defined\n";
+        }
 
         return nullptr;
     }

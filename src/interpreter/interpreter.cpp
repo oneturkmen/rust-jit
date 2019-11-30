@@ -32,7 +32,8 @@ Object* Interpreter::visitVarDeclStmt(VarDeclStmt *varDeclStmt) {
 
     if (ref) {
         env.reference(var_name, ref->to, ref->_mutable);
-    } else {
+    } 
+    else if (value) {
         env.define(var_name, { is_mutable, false, false, value });
     }
 

@@ -14,19 +14,19 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 
 # Necessary source/header files
 include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/ast
-    ${CMAKE_CURRENT_SOURCE_DIR}/interpreter
-    ${CMAKE_CURRENT_SOURCE_DIR}/lexer
-    ${CMAKE_CURRENT_SOURCE_DIR}/parser
-    ${CMAKE_CURRENT_SOURCE_DIR}/utils
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/ast
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/interpreter
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/lexer
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/parser
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/utils
 )
 
-set(APP_SOURCES main.cpp 
-    ast/ast_printer.cpp 
-    interpreter/interpreter.cpp 
-    lexer/lexer.cpp 
-    parser/parser.cpp 
-    interpreter/environment.cpp
+set(APP_SOURCES src/main.cpp 
+    src/ast/ast_printer.cpp 
+    src/interpreter/interpreter.cpp 
+    src/lexer/lexer.cpp 
+    src/parser/parser.cpp 
+    src/interpreter/environment.cpp
 )
 
 # Creates ./build/bin/runner
@@ -39,10 +39,11 @@ target_include_directories(rustjit
     #    $<INSTALL_INTERFACE:include>    
     #    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/
-        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/include/omr-jitbuilder
 )
 
 # Link against statically compiled OMR library
-find_library(OMR_LIB_DIRECTORY jitbuilder ${CMAKE_CURRENT_SOURCE_DIR}/libs)
+find_library(OMR_LIB_DIRECTORY jitbuilder ${CMAKE_CURRENT_SOURCE_DIR}/src/libs)
 target_link_libraries(rustjit PRIVATE ${OMR_LIB_DIRECTORY})
