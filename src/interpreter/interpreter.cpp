@@ -59,8 +59,14 @@ Object* Interpreter::visitPrintStmt(PrintStmt* printStmt) {
 Object* Interpreter::visitAssignExpr(AssignExpr* assign_expr) {
     std::cout << "visitAssignExpr()\n";
     Object* result = evaluate(assign_expr->m_expr);
+    Reference* ref = dynamic_cast<Reference*>(result);
 
-    env.assign(assign_expr->m_token.lexeme(), result);
+    if (ref) {
+        env.reference(assign_expr->m_token.lexeme(), ref->to, ref->_mutable);
+    } 
+    else if (result) {
+        env.assign(assign_expr->m_token.lexeme(), result);
+    }
 
     return result;
 }
