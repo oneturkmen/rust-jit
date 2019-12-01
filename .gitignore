@@ -63,3 +63,13 @@ tags/**/*
 
 # ---- CCLS
 .ccls-cache/
+
+# ---- LaTeX
+/docs/*.aux
+/docs/*.fdb_latexmk
+/docs/*.log
+/docs/*.out
+/docs/*.pdf
+/docs/*.synctex.gz
+/docs/*.cls
+/docs/*.cut
