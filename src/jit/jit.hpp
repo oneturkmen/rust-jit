@@ -19,41 +19,65 @@
 // class UnaryExpr;
 // class GroupingExpr;
 
+static void printNumber(int val) {
+    printf("%d", val);
+}
+
+
+/**
+ * Helper class for JIT compilation. Extends MethodBuilder.
+ * In other words, contains IR for some stmt, at a time.
+ */
+class StatementBuilder : public OMR::JitBuilder::MethodBuilder {
+    public:
+        StatementBuilder(OMR::JitBuilder::TypeDictionary* types);
+
+        virtual bool buildIL() override;
+};
+
 
 /**
  * Driver class for JIT compilation of code.
  */
-class Jit : ASTVisitor<Object*> {
+class Jit : ASTVisitor<OMR::JitBuilder::IlValue*> {
     public:
         Jit() {
             // does nothing
+            bool initialized = initializeJit();
+            if (!initialized) {
+                std::cout << "FAIL: could not initialize JIT\n";
+                exit(-1);
+            }
         }
 
-        Object* visitVarDeclStmt(VarDeclStmt* varDeclStmt);
-        Object* visitExprStmt(ExprStmt* exprStmt);
-        Object* visitPrintStmt(PrintStmt* printStmt);
-        Object* visitExpr(Expr* expr);
-        Object* visitAssignExpr(AssignExpr* assign_expr);
-        Object* visitIdentifier(Identifier* identifier);
-        Object* visitLiteral(Literal* literal);
-        Object* visitBinaryExpr(BinaryExpr* bin_expr);
-        Object* visitUnaryExpr(UnaryExpr* unary_expr);
-        Object* visitGroupingExpr(GroupingExpr* group_expr);
+        OMR::JitBuilder::IlValue* visitVarDeclStmt(VarDeclStmt* varDeclStmt);
+        OMR::JitBuilder::IlValue* visitExprStmt(ExprStmt* exprStmt);
+        OMR::JitBuilder::IlValue* visitPrintStmt(PrintStmt* printStmt);
+        OMR::JitBuilder::IlValue* visitExpr(Expr* expr);
+        OMR::JitBuilder::IlValue* visitAssignExpr(AssignExpr* assign_expr);
+        OMR::JitBuilder::IlValue* visitIdentifier(Identifier* identifier);
+        OMR::JitBuilder::IlValue* visitLiteral(Literal* literal);
+        OMR::JitBuilder::IlValue* visitBinaryExpr(BinaryExpr* bin_expr);
+        OMR::JitBuilder::IlValue* visitUnaryExpr(UnaryExpr* unary_expr);
+        OMR::JitBuilder::IlValue* visitGroupingExpr(GroupingExpr* group_expr);
 
-        void compile(std::vector<Stmt*> expr);
+        void compile(std::vector<Stmt*> stmts);
 
     private:
         void execute(Stmt* stmt) {
             stmt->accept(this);
         }
 
-        Object* evaluate(Expr* expr) {
+        OMR::JitBuilder::IlValue* evaluate(Expr* expr) {
             if (expr == nullptr) {
                 std::cout << "Expr is nullptr\n";
             }
             std::cout << "Accepting expression in evaluate()\n";
             return expr->accept(this);
         }
+
+        // OMR IR builder per stmt
+        OMR::JitBuilder::IlBuilder il;
 };
 
 #endif
