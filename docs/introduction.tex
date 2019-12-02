@@ -1,1 +1,62 @@
-This is an introduction!
+
+\subsection{Static vs. Runtime Execution Trade-Off}
+Rust is a multi-paradigm systems programming language focused on type and memory safety.
+It is syntactically similar to C++. Unlike C++, it has a stricter type system
+as well as built-in memory safety guarantees. The Rust compiler
+enforces these guarantees at static time, thereby maintaining high execution
+performance (at runtime). It also allows for ``fearless concurrency'', where most of the
+bugs stemming from the use of concurrency are detected at compile time. Being able to
+detect concurrency-related bugs before execution helps Rust developers
+trace bugs easier and fix their compile-time errors faster.
+
+% https://benchmarksgame-team.pages.debian.net/benchmarksgame/fastest/gcc-rust.html
+
+However, while the Rust compiler, \texttt{rustc}, performs these checks at
+compile time, its compilation time drastically increases. According to the
+\textit{Computer Language Benchmarks Game} \textcolor{red}{CITE}, Rust
+performed about slower on 6 out of 10 programs when comparing Rust to C. On
+these 6 programs, the \texttt{rustc} was 11\% slower on average than GCC. \textcolor{red}{Add note
+that though Rust is getting better and benchmarks may have been anulled, there is
+still a need for runtime environment such as garbage collection}
+
+\subsection{Potential solution}
+
+One way to alleviate the problem of slow compilation would be to compile
+Rust at runtime. Compiling code at run-time encompasses, in general, two forms
+of execution: \textit{interpretation}, which immediately executes a block of code;
+and \textit{just-in-time (JIT) compilation}, which first compiles a block of code
+(usually a method or function) to native machine code, and then executes it.
+Languages that are compiled at runtime usually require an environment
+that includes both interpreter and JIT compiler. Such environment is
+called a (process) \textit{virtual machine} (VM), that manages
+compilation process and decides whether to interpret or JIT-compile
+a block of code. The decision depends on a block of code; 
+for example, if the block of code is to known to be
+frequently called throughout a lifetime of a program, it would be more
+optimal to JIT-compile it and cache the result for future calls; but,
+if the code is rarely called and is trivial to execute (i.e., does not
+contain complex, resource-intensive operations to optimize), interpreting it
+would be faster.
+
+Rust could leverage run-time techniques to speed up its compilation time.
+Knowing that very few parts in the code get executed the most (if the Pareto
+principle holds true \textcolor{red}{cite pareto}), one could
+focus on optimizing those parts through JIT-compilation, and interpreting the
+rest.
+
+\textcolor{red}{Move this paragraph under main ideas}Compiling language at runtime is not a novel idea.
+\textcolor{red}{JAVA cite} Inspired by Smalltalk, Java
+is a strongly-typed static object-oriented programming language.
+Its execution model (Java Virtual Machine, or JVM) consists of two compilers.
+The front-end compiler performs necessary static checks (e.g., type checking)
+at compile time, and emits an intermediate representation, or \textit{bytecode}.
+Then, the other compiler takes the bytecode, performs necessary optimizations,
+and JIT-compiles it (by translating it into machine code and executing
+it). JVM attempts to optimize more of so-called \textit{hot spots}, the areas
+of code where a program spends most of its time. As Java is similar to Rust
+in its type system (strongly-typed and static), similar dynamic compilation 
+techniques will help us implement similar runtime environment for Rust.
+
+Before discussing core ideas and implementation of our runtime
+execution model, we will briefly describe Rust itself, and the features
+that make it unique among other languages.

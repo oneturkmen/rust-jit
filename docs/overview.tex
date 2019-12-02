@@ -1,0 +1,87 @@
+\begin{figure*}[ht]
+    \begin{center}
+    \lstinputlisting{rust_ex1.rs}
+    \end{center}
+    \caption{Snippet of Rust lang \textcolor{red}{cite the book}}
+    \label{rustex1}
+\end{figure*}
+
+As stated in the previous section, Rust is a strongly typed language compiled at static time.
+It has a strict type system where each variable's type should be known at compile
+time. Despite the strong type system, the concept of \textit{ownership} is what
+makes Rust truly a unique language.
+
+Before understanding ownership, let us consider how programs manage memory.
+Some languages use a \textit{garbage collector}, which, as program is running,
+looks for unused memory locations and frees them constantly (i.e., at
+runtime). Other languages completely delegate memory management to developers
+themselves; for example, if you are writing in C and want to allocate a variable onto
+the heap segment, you have to allocate and free memory on your own.
+
+Garbage collectors usually add overhead at runtime as the collector has to find
+all (and there can be many at a time) allocated, but unused memory segments,
+and de-allocate them. On the other hand, trusting developers to manage program
+memory manually is a \textit{bad} and error-prone idea that may lead to problems such
+as dangling pointer (a pointer that points to deallocated memory
+location), memory leaks (forgetting to deallocate allocated memory), and others which
+are hard to debug.
+
+However, Rust introduces a third dimension of memory management
+that is enforced at compile time. According to Steve Klabnik and Carol Nichols
+\textcolor{red}{cite rust book}, "memory is managed through a system of
+ownership with a set of rules that the compiler checks at compile time. None of
+the ownership features slow down your program while it's running." Note
+that even though ownership features do not slow down the execution of a program,
+it slows down a compilation process by having to perform additional analysis
+to verify the rules.
+
+The following are the ownership rules that help Rust get rid of garbage collection
+or manual memory management:
+
+\begin{itemize}
+    \item Each value has its \textit{owner} (a.k.a., a variable).
+    \item Each value has \textit{a single owner} at a time.
+    \item Value is dropped when an owner goes out of scope.
+\end{itemize}
+
+Take a look at \hyperref[rustex1]{Figure 1}. Before the declaration statement,
+\texttt{s} is not valid in the nested scope. After it is declared, 
+\texttt{s} can now be used, but only in the nested scope. As the scope
+is over, \texttt{s}'s value is dropped as owner goes out of the nested scope.
+
+What makes ownership more exciting is \textit{borrowing} owners. For comparison
+with \hyperref[rustex1]{Figure 1}, take a look at \hyperref[rustex2]{Figure 2}.
+
+\begin{figure*}[ht]
+    \begin{center}
+    \lstinputlisting{rust_ex2.rs}
+    \end{center}
+    \caption{Borrowing a value with references.}
+    \label{rustex2}
+\end{figure*}
+
+The \texttt{owner} is of type of struct \texttt{Foo}, which may contain some fields.
+Instead of either copying or \textit{moving} the value of that struct into the variable
+\texttt{borrower}, we can instead borrow a value of \texttt{owner} by \textit{referencing}
+it.
+
+Several questions immediately raise - what about multiple references? Also, if I have 
+multiple references that change (or, \textit{mutate}) the value of \texttt{owner},
+would not this cause \textit{data races}? Before providing answers, we have to differentiate
+between \textit{immutable} and \textit{mutable} references. The immutable references do not
+modify the original value (i.e., read-only), and the mutable ones may
+change the original value (i.e., both read and write accesses). To borrow
+any object in a \textit{mutable} way, you can use \texttt{\&mut} instead of
+original \texttt{\&} (immutable by default).
+
+The \textbf{borrow checker}, that statically checks the validity of references (or borrows),
+also follows a system of rules. The following are some of its rules:
+
+\begin{itemize}
+    \item You can have either one mutable reference, or any number of immutable references,
+          but not both.
+    \item References must always be valid (i.e., cannot reference values when they are out
+         of their scope).
+\end{itemize}
+
+

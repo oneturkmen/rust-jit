@@ -11,7 +11,11 @@
 %\documentclass[sigplan]{acmart}\settopmatter{}
 
 \usepackage{xcolor}
+\usepackage{listings}
+\usepackage{float}
 
+\floatstyle{boxed} 
+\restylefloat{figure}
 %% Conference information
 %% Supplied to authors by publisher for camera-ready submission;
 %% use defaults for review submission.
@@ -60,6 +64,15 @@
                         %% http://ctan.org/pkg/booktabs
 \usepackage{subcaption} %% For complex figures with subfigures/subcaptions
                         %% http://ctan.org/pkg/subcaption
+\usepackage{hyperref}   %% For clickable links.
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+
 
 
 \begin{document}
@@ -137,37 +150,40 @@
 %% Note: \begin{abstract}...\end{abstract} environment must come
 %% before \maketitle command
 \begin{abstract}
-Text of abstract \ldots.
-TODO
+
+Rust is statically-compiled programming language
+that focuses on memory and and type safety.
+The safety is ensured at static time through
+
 
 \end{abstract}
 
 
 %% 2012 ACM Computing Classification System (CSS) concepts
 %% Generate at 'http://dl.acm.org/ccs/ccs.cfm'.
-\begin{CCSXML}
-<ccs2012>
-<concept>
-<concept_id>10011007.10011006.10011008</concept_id>
-<concept_desc>Software and its engineering~General programming languages</concept_desc>
-<concept_significance>500</concept_significance>
-</concept>
-<concept>
-<concept_id>10003456.10003457.10003521.10003525</concept_id>
-<concept_desc>Social and professional topics~History of programming languages</concept_desc>
-<concept_significance>300</concept_significance>
-</concept>
-</ccs2012>
-\end{CCSXML}
-
-\ccsdesc[500]{Software and its engineering~General programming languages}
-\ccsdesc[300]{Social and professional topics~History of programming languages}
+% \begin{CCSXML}
+% <ccs2012>
+% <concept>
+% <concept_id>10011007.10011006.10011008</concept_id>
+% <concept_desc>Software and its engineering~General programming languages</concept_desc>
+% <concept_significance>500</concept_significance>
+% </concept>
+% <concept>
+% <concept_id>10003456.10003457.10003521.10003525</concept_id>
+% <concept_desc>Social and professional topics~History of programming languages</concept_desc>
+% <concept_significance>300</concept_significance>
+% </concept>
+% </ccs2012>
+% \end{CCSXML}
+% 
+% \ccsdesc[500]{Software and its engineering~General programming languages}
+% \ccsdesc[300]{Social and professional topics~History of programming languages}
 %% End of generated code
 
 
 %% Keywords
 %% comma separated list
-\keywords{keyword1, keyword2, keyword3}  %% \keywords are mandatory in final camera-ready submission
+\keywords{compilers, rust, static-analysis}  %% \keywords are mandatory in final camera-ready submission
 
 
 %% \maketitle
@@ -179,38 +195,87 @@ TODO
 
 \section{Introduction}
 
-Text of paper \ldots
+% Here I will explain that currently Rust compiler is very slow
+% due to its static checks. What if we could keep static checks,
+% but rather compile just-in-time to achieve speed, etc.
+% And focus JIT on hot spot places in the program, etc.
+
+
+\input{introduction.tex}
 
 \section{Overview of Rust lang}
 
+% - Here I will explain what Rust is, how it looks like.
+% - Borrow checker, how it works. Example with lifetimes. Ref: Rustbook
+% - Talk about Cargo and Rust compiler - outputs LLVM IR, which then
+%   generates machine code, etc.
+
+\input{overview.tex}
+
 \section{Main ideas}
 
-\input{foo.tex}
+% - Here I will again remark on just-in-time benefits. Cite Java paper here,
+%   how it generates code based on bytecodes.
+% - Then, talk briefly about ASTs and how we wrote an interpreter that walks
+%   the AST tree as a visitor. Cite "crafting interpreters"
+% - Talk about missing garbage collection.
+% - Talk about separation of concerns, e.g. separating static checks into
+%   one part, and compilation and optimization into the other.
+
+\input{main_ideas.tex}
 
 \section{Implementation}
 
+% - talk about initial challenges as well
+% - Talk about front-end: lexer and parser.
+% - Talk about interpreter. How visitor patterns helps interpreter traverse a tree
+%   in an extensible way.
+% - Talk about Eclipse OMR and how you integrate it.
+
+\input{implementation.tex}
+
 \section{Evaluation}
+
+% - TODO: We gotta do some evaluation here ... Run 2-3 simple programs about 1000 times.
+%   Get their average real compilation and execution speed, together.
+% - Talk about simplicity of our compiler. Cannot provide a complete evaluation yet.
+% - and give graphs based on point 1.
+% - plus talk about standard benchmarks. We do not support all of the grammar yet,
+%   but when we do, we will have to run them on the standard benchmark that includes
+%   real programs as well as stress tests.
+
+\input{evaluation.tex}
 
 \section{Related Work}
 
+% - Talk about related work in the industry. How our work helps ? how is it better than others?
+%   How does it fill in the gap?
+
+\input{related_work.tex}
+
 \section{Conclusion}
 
+% Talk about Rust's async await and potential need for runtime. Cite how it's implemented,
+% and how Rust may consider adding garbage collection.
+
+\input{conclusion.tex}
+
 %% Acknowledgments
-\begin{acks}                            %% acks environment is optional
-                                        %% contents suppressed with 'anonymous'
-  %% Commands \grantsponsor{<sponsorID>}{<name>}{<url>} and
-  %% \grantnum[<url>]{<sponsorID>}{<number>} should be used to
-  %% acknowledge financial support and will be used by metadata
-  %% extraction tools.
-  This material is based upon work supported by the
-  \grantsponsor{GS100000001}{National Science
-    Foundation}{http://dx.doi.org/10.13039/100000001} under Grant
-  No.~\grantnum{GS100000001}{nnnnnnn} and Grant
-  No.~\grantnum{GS100000001}{mmmmmmm}.  Any opinions, findings, and
-  conclusions or recommendations expressed in this material are those
-  of the author and do not necessarily reflect the views of the
-  National Science Foundation.
-\end{acks}
+% \begin{acks}                            %% acks environment is optional
+%                                         %% contents suppressed with 'anonymous'
+%   %% Commands \grantsponsor{<sponsorID>}{<name>}{<url>} and
+%   %% \grantnum[<url>]{<sponsorID>}{<number>} should be used to
+%   %% acknowledge financial support and will be used by metadata
+%   %% extraction tools.
+%   This material is based upon work supported by the
+%   \grantsponsor{GS100000001}{National Science
+%     Foundation}{http://dx.doi.org/10.13039/100000001} under Grant
+%   No.~\grantnum{GS100000001}{nnnnnnn} and Grant
+%   No.~\grantnum{GS100000001}{mmmmmmm}.  Any opinions, findings, and
+%   conclusions or recommendations expressed in this material are those
+%   of the author and do not necessarily reflect the views of the
+%   National Science Foundation.
+% \end{acks}
 
 
 %% Bibliography
@@ -218,9 +283,9 @@ Text of paper \ldots
 
 
 %% Appendix
-\appendix
-\section{Appendix}
-
-Text of appendix \ldots
+% \appendix
+% \section{Appendix}
+% 
+% Text of appendix \ldots
 
 \end{document}
