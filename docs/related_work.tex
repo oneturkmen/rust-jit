@@ -1,1 +1,16 @@
-this is related work!
+There is currently no dynamic compiler
+(whether an interpreter or JIT) that entirely supports
+Rust. For example, there is 
+HolyJit, a "generic purpose just-in-time compiler for Rust"
+\textcolor{red}{cite Holyjit repo}. It extends static Rust compiler by
+obtaining its intermediate representation (MIR) and converts it into a
+representation for the JIT compiler from HolyJit library. Despite supporting
+much more language features than my system, there is currently no one working
+actively on the project.  As it has been inactive since mid-2018, not much can
+be done given that Rust itself evolves quite rapidly (e.g., it has recently
+introduced \texttt{async/await} into
+the language).
+
+Nevertheless, the Rust compiler, \texttt{rustc}, is also getting
+faster ``with every commit''. Section 1 briefly desribes
+the performance of the default Rust compiler.

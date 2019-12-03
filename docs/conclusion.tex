@@ -1,1 +1,14 @@
-this is conclusion!!
+In this paper, we took a look at a potential idea of dynamic compilation of
+Rust. We saw that the static analysis checks such as borrow checker can be
+separated into their own stage in the pipeline. The pipeline, thus, contains
+both static and dynamic aspects: on one side, we are validating the source for
+ownership (and other) rules; on the other, we are dynamically compiling,
+optimizing (in a \textit{smarter} way) and generating machine code at runtime.
+
+In future, one could look into branching off directly from the static Rust
+compiler.  That way, we do not have to think about implementing front-end
+(performing lexical, syntactic and semantic analysis) because the work has
+already been done by the Rust compiler itself. In addition, using the HIR/MIR
+representation would give us more semantic information about the source that I
+currently generate and store. The same information could be used to perform
+additional analyses (e.g., taint analysis).
