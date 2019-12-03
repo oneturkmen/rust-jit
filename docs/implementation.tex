@@ -14,7 +14,7 @@ the ideas for architecture as well as design patterns
 were taken from the Crafting Interpreters book by Bob Nyrdstrom
 \textcolor{red}{cite crafting interpreters book}.
 
-The design of my implementation is similar to the one described 
+The design of my implementation is similar to the one described
 on \hyperref[arch1]{Figure 3}. The entire system works as a \textit{pipeline}
 that takes in raw Rust code, transforms it into an IR, runs optimizations on it,
 and finally, either directly executesit, or JIT-compiles the IR into machine code.
@@ -22,12 +22,12 @@ and finally, either directly executesit, or JIT-compiles the IR into machine cod
 To make project's components more reusable (namely, the AST serving as an IR),
 I resorted to a hybrid of two design patterns (namely, \textit{visitor} and
 \textit{interpreter}). The hybrid approach also makes the implementation code
-readable, testable, and extensible enough for future changes. 
+readable, testable, and extensible enough for future changes.
 
 Each class in \texttt{ast.hpp} represents a corrensponding grammar rule. For
-example, take a look at \hyperref[cpp1]{Figure 4}. \texttt{VarDeclStmt} 
+example, take a look at \hyperref[cpp1]{Figure 4}. \texttt{VarDeclStmt}
 inherits from abstract \texttt{Stmt} class, and contains \texttt{Token m\_name;}
-and \texttt{Expr* m\_initializer;} as l-value (variable name) and 
+and \texttt{Expr* m\_initializer;} as l-value (variable name) and
 r-value (value to declare a variable with), respectively.
 
 Visitor pattern allows us to add additional functionality on the AST classes
@@ -77,13 +77,27 @@ pain.
 
 \subsection{Borrow checker}
 
-Explain how you implemented a borrow checker in a detailed way.
-One way was to store env vars in a map, and references in the other.
-Give names of maps.
-However, graph representation is better: (1) easier to track references,
-especially nested ones (2) necessary for garbage collection
+As previously explained, the borrow checker makes sure that
+ownership principles are not violated at any given statement.
+For the scope of this class, I implemented a simple borrow checker
+that relies on two hash maps (\texttt{std::unordered\_map<>} in C++).
+One map (\textbf{env}) stores local variables in a certain environment
+(e.g., in a function). It maps variables to their values, as well as
+the information about mutability (whether a variable's
+value can be changed or not) and ownership (whether a variable's value is
+borrowed) of the variable.
 
-\textcolor{red}{provide a high-level architecture, i.e. the front-end, environment,
-and interpreter components}.
+The other map (\textbf{pointer}) stores a pointer as a key, and the referenced value (i.e., where it points to) as a value. Similarly to \textbf{env}, \textbf{pointer} also stores
+the mutability, but of the references.
 
-\textcolor{red}{describe how you implemented borrow checking with points-to sets}.
+In other words, we store the information about \textbf{ownership} and
+\textbf{mutability} as boolean types. These ``flags'' help us determine
+whether some statement (assignment expression or variable declaration) violates
+the ownership rules.
+
+Despite its logical simplicity, the graph representation would have been better
+suited for tracking the ownership and mutability of objects. First, it is easier
+to track references, especially nested ones, and visualize them (as a graph).
+Second, a garbage collection framework, which will highly likely be introduced in future
+to manage heaps, uses a graph representation to get rid of unused memory locations
+(e.g., mark-and-sweep algorithm).

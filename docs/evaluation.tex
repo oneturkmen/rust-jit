@@ -1,10 +1,19 @@
-This is evaluation!
+I did not perform any benchmarking or evaluation
+program because the dynamic compilation infrastructure
+does not support ``enough'' of the language yet.
+There are, however, official benchmarks that Rust
+compiler is evaluated against. These are the
+programs that I plan to verify my main ideas (hypothesis)
+against, to see how well a dynamic compilation system works.
 
-The evaluation part only includes simple
-benchmark programs that are not beyond
-unary, binary expressions; variable declaration 
+As such, there is currently only support for
+unary, binary expressions; variable declaration
 statements; assignment statement expressions;
 as well as references (accessing an address,
 or equivalently, dereferencing an element).
-
-However, in future, \textcolor{red}{cite benchmark Rust programs}
+The next step would be to introduce a notion of \textit{scope}
+(as well as functions) into the program.
+After scopes, functions, lifetimes, and (at least) closures
+I could perform benchmarking against the set of programs
+provided by Rust community. \textcolor{red}{cite benchmark Rust programs
++ state that in presentation, but show example}
