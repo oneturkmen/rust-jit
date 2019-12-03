@@ -1,1 +1,89 @@
-This is implementation!
+This section describes the high-level design and architecture of the project;
+implementation challenges I faced while realizing the project; as well as
+the details of the implementations of the borrow checker rules.
+Despite facing numerous challenges, I managed to implement the project
+\textit{partially}; it includes the front-end compiler and interpreter.
+Integrating OMR's JIT compiler remains a future goal.
+
+The source code open sourced and is available at \href{https://github.com/oneturkmen/rust-jit}{github.com/oneturkmen/rust-jit}.
+
+\subsection{Design}
+
+Before I present the design of the project, I must note that
+the ideas for architecture as well as design patterns
+were taken from the Crafting Interpreters book by Bob Nyrdstrom
+\textcolor{red}{cite crafting interpreters book}.
+
+The design of my implementation is similar to the one described 
+on \hyperref[arch1]{Figure 3}. The entire system works as a \textit{pipeline}
+that takes in raw Rust code, transforms it into an IR, runs optimizations on it,
+and finally, either directly executesit, or JIT-compiles the IR into machine code.
+
+To make project's components more reusable (namely, the AST serving as an IR),
+I resorted to a hybrid of two design patterns (namely, \textit{visitor} and
+\textit{interpreter}). The hybrid approach also makes the implementation code
+readable, testable, and extensible enough for future changes. 
+
+Each class in \texttt{ast.hpp} represents a corrensponding grammar rule. For
+example, take a look at \hyperref[cpp1]{Figure 4}. \texttt{VarDeclStmt} 
+inherits from abstract \texttt{Stmt} class, and contains \texttt{Token m\_name;}
+and \texttt{Expr* m\_initializer;} as l-value (variable name) and 
+r-value (value to declare a variable with), respectively.
+
+Visitor pattern allows us to add additional functionality on the AST classes
+without many changes. We only have to subclass a template class (as in
+\hyperref[cpp2]{Figure 5}, pass a template argument that we want methods
+to return, and provide implementation for these. As of AST classes,
+we only need to add an additional method definitions to ``accept'' a visitor
+class. This could be further improved by turning the code in \texttt{ast.hpp}
+into a more generic variant.
+
+\begin{figure*}[ht]
+    \begin{center}
+        \lstinputlisting{ast.cpp}
+    \end{center}
+    \caption{AST.hpp maps each rule to its own class.}
+    \label{cpp1}
+\end{figure*}
+
+\begin{figure*}[ht]
+    \begin{center}
+        \lstinputlisting{astv.cpp}
+    \end{center}
+    \caption{ASTVisitor for any class that wants to ``visit'' an AST.}
+    \label{cpp2}
+\end{figure*}
+
+\subsection{Challenges}
+
+The current design was not the kick-starting idea. Initially, to transform Rust
+code into the AST, I planned to use \textbf{syn} crate (package) from Rust's
+ecosystem.  The package turns Rust into an IR without any issues, with the
+exception that it generates too complex (to understand what I need from it,
+\textit{exactly}) data structure that represent an MIR (or, an annotated
+control-flow graph). In addition to the MIR's complexity, I immediately
+realized that I will not be able to pass the data structure
+to OMR as the latter currently needs C++ code to run.
+
+As of a more fine-grained design, I initially thought to
+have a large ``switch"" statement that would branch off
+the control flow for each of the grammar rules. However,
+this was clear to me that it is a naive (and quite \textit{bad} in many ways)
+approach. I found the hybrid approach to be better; besides,
+it was quite simple to understand that the AST classes would
+represent grammar rules, visitor classes would traverse the AST
+classes, and perform the necessary functionality without causing me much
+pain.
+
+\subsection{Borrow checker}
+
+Explain how you implemented a borrow checker in a detailed way.
+One way was to store env vars in a map, and references in the other.
+Give names of maps.
+However, graph representation is better: (1) easier to track references,
+especially nested ones (2) necessary for garbage collection
+
+\textcolor{red}{provide a high-level architecture, i.e. the front-end, environment,
+and interpreter components}.
+
+\textcolor{red}{describe how you implemented borrow checking with points-to sets}.
