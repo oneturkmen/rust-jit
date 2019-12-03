@@ -1,3 +1,4 @@
+
 This section describes the high-level design and architecture of the project;
 implementation challenges I faced while realizing the project; as well as
 the details of the implementations of the borrow checker rules.
@@ -6,6 +7,7 @@ Despite facing numerous challenges, I managed to implement the project
 Integrating OMR's JIT compiler remains a future goal.
 
 The source code open sourced and is available at \href{https://github.com/oneturkmen/rust-jit}{github.com/oneturkmen/rust-jit}.
+
 
 \subsection{Design}
 
@@ -37,14 +39,6 @@ to return, and provide implementation for these. As of AST classes,
 we only need to add an additional method definitions to ``accept'' a visitor
 class. This could be further improved by turning the code in \texttt{ast.hpp}
 into a more generic variant.
-
-\begin{figure*}[ht]
-    \begin{center}
-        \lstinputlisting{ast.cpp}
-    \end{center}
-    \caption{AST.hpp maps each rule to its own class.}
-    \label{cpp1}
-\end{figure*}
 
 \begin{figure*}[ht]
     \begin{center}

@@ -99,6 +99,13 @@ takes the AST and either interprets it, or JIT-compiles it into a machine code
     \label{arch1}
 \end{figure}
 }
+\begin{figure*}[ht]
+    \begin{center}
+        \lstinputlisting{ast.cpp}
+    \end{center}
+    \caption{AST.hpp maps each rule to its own class.}
+    \label{cpp1}
+\end{figure*}
 
 Due to the separation of concerns (i.e., \textit{static} front-end 
 and \textit{dynamic} interpreter and JIT compiler), the system attains
