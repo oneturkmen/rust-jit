@@ -50,7 +50,7 @@ class Interpreter : ASTVisitor<Object*> {
             if (expr == nullptr) {
                 std::cout << "Expr is nullptr\n";
             }
-            std::cout << "Accepting expression in evaluate()\n";
+            // std::cout << "Accepting expression in evaluate()\n";
             return expr->accept(this);
         }
 

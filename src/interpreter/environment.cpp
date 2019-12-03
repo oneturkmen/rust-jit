@@ -28,7 +28,7 @@ void Environment::assign(std::string name, Object* object) {
 
     auto found = env.find(name);
 
-    std::cout << "Hello" << object->value() << std::endl;
+    // std::cout << "Hello" << object->value() << std::endl;
     if (found == env.end()) {
         std::cout << "ERROR: Cannot assign to non-existent variable!\n";
         return;
@@ -42,7 +42,7 @@ void Environment::assign(std::string name, Object* object) {
     if (!is_mutable) {
         std::cout << "ERROR: Variable `"
             << name
-            << "`is immutable, cannot re-assign!\n";
+            << "` is immutable, cannot re-assign!\n";
         return;
     }
     if (object->type != target->type) {
@@ -85,7 +85,7 @@ Object* Environment::lookup(std::string name) {
 }
 
 void Environment::reference(std::string from, std::string to, bool _mutable = false) {
-    std::cout << "Inside reference()\n";
+    // std::cout << "Inside reference()\n";
     // Validate that target exists
     auto found = env.find(to);
 
@@ -142,6 +142,6 @@ Object* Environment::dereference(std::string alias) {
         ref = pointer[ref.to];
     }
 
-    std::cout << "TARGET == " << ref.to << "\n";
+    // std::cout << "TARGET == " << ref.to << "\n";
     return env[ref.to].value;
 }

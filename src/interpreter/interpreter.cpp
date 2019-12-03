@@ -1,7 +1,7 @@
 #include "interpreter.hpp"
 
 void Interpreter::interpret(std::vector<Stmt*> stmts) {
-    std::cout << "# of stmts: " << stmts.size() << std::endl;
+    // std::cout << "# of stmts: " << stmts.size() << std::endl;
     for (auto stmt : stmts) {
         execute(stmt);
     }
@@ -13,7 +13,7 @@ void Interpreter::interpret(std::vector<Stmt*> stmts) {
 // }
 
 Object* Interpreter::visitVarDeclStmt(VarDeclStmt *varDeclStmt) {
-    std::cout << "visitVarDeclStmt()\n";
+    // std::cout << "visitVarDeclStmt()\n";
     Object* value = nullptr;
 
     if (varDeclStmt->m_initializer == nullptr) {
@@ -41,7 +41,7 @@ Object* Interpreter::visitVarDeclStmt(VarDeclStmt *varDeclStmt) {
 }
 
 Object* Interpreter::visitExprStmt(ExprStmt* exprStmt) {
-    std::cout << "visitExprStmt()\n";
+    // std::cout << "visitExprStmt()\n";
     return evaluate(exprStmt->m_expr);
 }
 
@@ -57,7 +57,7 @@ Object* Interpreter::visitPrintStmt(PrintStmt* printStmt) {
 }
 
 Object* Interpreter::visitAssignExpr(AssignExpr* assign_expr) {
-    std::cout << "visitAssignExpr()\n";
+    // std::cout << "visitAssignExpr()\n";
     Object* result = evaluate(assign_expr->m_expr);
     Reference* ref = dynamic_cast<Reference*>(result);
 
@@ -72,14 +72,14 @@ Object* Interpreter::visitAssignExpr(AssignExpr* assign_expr) {
 }
 
 Object* Interpreter::visitIdentifier(Identifier* identifier) {
-    std::cout << "visitIdentifier() <-> Variable Expression\n";
+    // std::cout << "visitIdentifier() <-> Variable Expression\n";
     Token token = identifier->m_token;
 
     return env.lookup(token.lexeme());
 }
 
 Object* Interpreter::visitLiteral(Literal* literal) {
-    std::cout << "visitLiteral()\n";
+    // std::cout << "visitLiteral()\n";
     Token curr_token = literal->m_token;
 
     if (curr_token.is(Token::Kind::Number)) {
@@ -94,12 +94,12 @@ Object* Interpreter::visitLiteral(Literal* literal) {
 }
 
 Object* Interpreter::visitExpr(Expr* expr) {
-    std::cout << "visitExpr()\n";
+    // std::cout << "visitExpr()\n";
     return evaluate(expr);
 }
 
 Object* Interpreter::visitUnaryExpr(UnaryExpr* unary_expr) {
-    std::cout << "visitUnaryExpr()\n";
+    // std::cout << "visitUnaryExpr()\n";
     Object* right = evaluate(unary_expr->m_right);
 
     switch (unary_expr->m_op.kind()) {

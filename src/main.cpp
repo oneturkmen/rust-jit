@@ -62,10 +62,11 @@ void run_repl() {
                 not token.is_one_of(Token::Kind::End, Token::Kind::Unexpected); 
                 token = lexis.next()) {
 
-            std::cout << std::setw(12) << token.kind() << " | " << token.lexeme() << " | " << token.on_line() << " | \n";
+            // std::cout << std::setw(12) << token.kind() << " | " << token.lexeme() << " | " << token.on_line() << " | \n";
 
             tokens.push_back(token);
         }
+        std::cout << "\n";
 
         // Parse into a tree
         Parser parser(tokens);

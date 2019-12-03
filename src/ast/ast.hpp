@@ -112,7 +112,7 @@ class Literal: public Expr {
 
         // For Interpreter
         Object* accept(ASTVisitor<Object*>* visitor) {
-            std::cout << "In Literal::accept(Object *)\n";
+            // std::cout << "In Literal::accept(Object *)\n";
             return visitor->visitLiteral(this);
         }
 
@@ -136,7 +136,7 @@ class Identifier: public Expr {
 
         // For Interpreter
         Object* accept(ASTVisitor<Object*>* visitor) {
-            std::cout << "In Identifier::accept(Object *)\n";
+            // std::cout << "In Identifier::accept(Object *)\n";
             return visitor->visitIdentifier(this);
         }
 
@@ -161,7 +161,7 @@ class AssignExpr: public Expr {
 
         // For Interpreter
         Object* accept(ASTVisitor<Object*>* visitor) {
-            std::cout << "In AssignExpr::accept(Object *)\n";
+            // std::cout << "In AssignExpr::accept(Object *)\n";
             return visitor->visitAssignExpr(this);
         }
 
@@ -185,7 +185,7 @@ class BinaryExpr: public Expr {
 
         // For Interpreter
         Object* accept(ASTVisitor<Object*>* visitor) {
-            std::cout << "In BinExpr::accept(Object *)\n";
+            // std::cout << "In BinExpr::accept(Object *)\n";
             return visitor->visitBinaryExpr(this);
         }
 
@@ -211,7 +211,7 @@ class UnaryExpr: public Expr {
 
         // For Interpreter
         Object* accept(ASTVisitor<Object*>* visitor) {
-            std::cout << "In UnaryExpr::accept(Object *)\n";
+            // std::cout << "In UnaryExpr::accept(Object *)\n";
             return visitor->visitUnaryExpr(this);
         }
         // Fields
@@ -235,7 +235,7 @@ class GroupingExpr: public Expr {
 
         // For Interpreter
         Object* accept(ASTVisitor<Object*>* visitor) {
-            std::cout << "In GroupingExpr::accept(Object *)\n";
+            // std::cout << "In GroupingExpr::accept(Object *)\n";
             return visitor->visitGroupingExpr(this);
         }
 
