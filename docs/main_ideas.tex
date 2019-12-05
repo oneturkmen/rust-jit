@@ -1,9 +1,9 @@
 
-In this section, I will introduce the core ideas behind dynamic compilation
+In this section, I will introduce core ideas behind dynamic compilation
 of Rust lang. The section will present \textit{benefits of 
-dynamic compilation} over a traditional static one; talk about 
+dynamic compilation} over the static one; talk about 
 \textit{static borrow checker} and how it is integrated within the compilation
-system; and discuss the \textit{modularity} obtain by separating concerns
+system; and discuss the \textit{modularity} achieved by separating concerns
 into their own ``modules''.
 
 Despite the aforementioned ideas, I should mention the idea of 
@@ -58,6 +58,24 @@ way to turn high-level source code into native machine code.
 %
 
 \subsection{Static borrow checker}
+{%
+\floatstyle{plain}
+\restylefloat{figure}
+\begin{figure}
+    %\begin{center}
+        \includegraphics[width=0.5\textwidth]{architecture.png}
+    %\end{center}
+    \caption{High-level architecture of the system.}
+    \label{arch1}
+\end{figure}
+}
+\begin{figure*}[ht]
+    \begin{center}
+        \lstinputlisting{ast.cpp}
+    \end{center}
+    \caption{AST.hpp maps each rule to its own class.}
+    \label{cpp1}
+\end{figure*}
 
 \texttt{rustc} generates and uses (sequentially) three levels of IR. While
 performing static program analysis such as liveness or pointer analysis, Rust
@@ -65,8 +83,8 @@ compiler refers to (i.e., copies and/or transforms) the mid-level IR (MIR),
 which is obtained from the high-level IR. The MIR is a \textcolor{red}{ cite
 https://rust-lang.github.io/rustc-guide/mir/index.html}  control-flow
 graph-based IR which provides explicit type information. Providing a program's
-explicit execution flow, the MIR makes it possible for such
-\textit{flow-sensitive} as borrow checking.
+explicit execution flow, the MIR makes it possible to perform the
+\textit{flow-sensitive} analysis such as borrow checking.
 
 It is hardly possible to do analysis on the original source code. As an
 interpreter directly executes the code, it cannot perform any of these checks.
@@ -87,25 +105,6 @@ that outputs tree-based (abstract syntax tree, or AST) representation,
 optimizes it statically, and outputs a better AST; and the virtual machine that
 takes the AST and either interprets it, or JIT-compiles it into a machine code
 (which is then executed).
-
-{%
-\floatstyle{plain}
-\restylefloat{figure}
-\begin{figure}
-    %\begin{center}
-        \includegraphics[width=0.5\textwidth]{architecture.png}
-    %\end{center}
-    \caption{High-level architecture of the system.}
-    \label{arch1}
-\end{figure}
-}
-\begin{figure*}[ht]
-    \begin{center}
-        \lstinputlisting{ast.cpp}
-    \end{center}
-    \caption{AST.hpp maps each rule to its own class.}
-    \label{cpp1}
-\end{figure*}
 
 Due to the separation of concerns (i.e., \textit{static} front-end 
 and \textit{dynamic} interpreter and JIT compiler), the system attains

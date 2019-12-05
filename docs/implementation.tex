@@ -1,7 +1,7 @@
 
 This section describes the high-level design and architecture of the project;
-implementation challenges I faced while realizing the project; as well as
-the details of the implementations of the borrow checker rules.
+the challenges I faced while realizing the project; as well as
+the details of the implementation of the borrow checker.
 Despite facing numerous challenges, I managed to implement the project
 \textit{partially}; it includes the front-end compiler and interpreter.
 Integrating OMR's JIT compiler remains a future goal.
@@ -32,11 +32,11 @@ inherits from abstract \texttt{Stmt} class, and contains \texttt{Token m\_name;}
 and \texttt{Expr* m\_initializer;} as l-value (variable name) and
 r-value (value to declare a variable with), respectively.
 
-Visitor pattern allows us to add additional functionality on the AST classes
+Visitor pattern allows us to add functionality on the AST classes
 without many changes. We only have to subclass a template class (as in
-\hyperref[cpp2]{Figure 5}, pass a template argument that we want methods
+\hyperref[cpp2]{Figure 5}), pass a template argument that we want methods
 to return, and provide implementation for these. As of AST classes,
-we only need to add an additional method definitions to ``accept'' a visitor
+we only need to add method definitions to ``accept'' a visitor
 class. This could be further improved by turning the code in \texttt{ast.hpp}
 into a more generic variant.
 
@@ -54,20 +54,18 @@ The current design was not the kick-starting idea. Initially, to transform Rust
 code into the AST, I planned to use \textbf{syn} crate (package) from Rust's
 ecosystem.  The package turns Rust into an IR without any issues, with the
 exception that it generates too complex (to understand what I need from it,
-\textit{exactly}) data structure that represent an MIR (or, an annotated
+\textit{exactly}) data structure that represents an MIR (or, an annotated
 control-flow graph). In addition to the MIR's complexity, I immediately
 realized that I will not be able to pass the data structure
 to OMR as the latter currently needs C++ code to run.
 
-As of a more fine-grained design, I initially thought to
-have a large ``switch"" statement that would branch off
-the control flow for each of the grammar rules. However,
-this was clear to me that it is a naive (and quite \textit{bad} in many ways)
-approach. I found the hybrid approach to be better; besides,
-it was quite simple to understand that the AST classes would
-represent grammar rules, visitor classes would traverse the AST
-classes, and perform the necessary functionality without causing me much
-pain.
+As of a more fine-grained design, I initially thought to have a large
+``switch"" statement that would branch off the control flow for each of the
+grammar rules. However, it is obviously a naive (and quite \textit{bad} in many
+ways) approach. I found the hybrid approach to be better; besides, it was quite
+simple to understand that the AST classes would represent grammar rules,
+visitor classes would traverse the AST classes, and perform the necessary
+functionality without causing me any headache.
 
 \subsection{Borrow checker}
 
@@ -81,13 +79,15 @@ the information about mutability (whether a variable's
 value can be changed or not) and ownership (whether a variable's value is
 borrowed) of the variable.
 
-The other map (\textbf{pointer}) stores a pointer as a key, and the referenced value (i.e., where it points to) as a value. Similarly to \textbf{env}, \textbf{pointer} also stores
-the mutability, but of the references.
+The other map (\textbf{pointer}) stores a pointer as a key, and the referenced
+variable (i.e., where it points to) as a value. Unlike \textbf{env},
+\textbf{pointer} stores the mutability of the references.
 
 In other words, we store the information about \textbf{ownership} and
-\textbf{mutability} as boolean types. These ``flags'' help us determine
-whether some statement (assignment expression or variable declaration) violates
-the ownership rules.
+\textbf{mutability} as boolean types. They help us answer questions as ``Is
+object borrowed?'', ``Is object \textit{mutably} borrowed?''. These ``flags''
+help us determine whether some statement (assignment expression or variable
+declaration) violates the ownership rules.
 
 Despite its logical simplicity, the graph representation would have been better
 suited for tracking the ownership and mutability of objects. First, it is easier

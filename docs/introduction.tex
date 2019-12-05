@@ -1,13 +1,14 @@
 
 \subsection{Static vs. Runtime Execution Trade-Off}
-Rust is a multi-paradigm systems programming language focused on type and memory safety.
-It is syntactically similar to C++. Unlike C++, it has a stricter type system
-as well as built-in memory safety guarantees. The Rust compiler
-enforces these guarantees at static time, thereby maintaining high execution
-performance (at runtime). It also allows for ``fearless concurrency'', where most of the
-bugs stemming from the use of concurrency are detected at compile time. Being able to
-detect concurrency-related bugs before execution helps Rust developers
-trace bugs easier and fix their compile-time errors faster.
+Rust is a multi-paradigm systems programming language focused on type and
+memory safety.  It is syntactically similar to C++. Unlike C++, it has a
+stricter type system as well as guarantees compile-time memory safety. Since
+the Rust compiler enforces these guarantees at static time, it attains high
+execution performance at run time. It also allows for ``fearless concurrency'',
+where most of the bugs stemming from the use of concurrency concepts (e.g.,
+threads) are detected at compile time. Being able to detect concurrency-related
+bugs before execution helps Rust developers trace bugs easier and fix 
+compile-time errors faster.
 
 % https://benchmarksgame-team.pages.debian.net/benchmarksgame/fastest/gcc-rust.html
 
@@ -21,6 +22,7 @@ still a need for runtime environment such as garbage collection}
 
 \subsection{Potential solution}
 
+
 One way to alleviate the problem of slow compilation would be to compile
 Rust at runtime. Compiling code at run-time encompasses, in general, two forms
 of execution: \textit{interpretation}, which immediately executes a block of code;
@@ -28,9 +30,9 @@ and \textit{just-in-time (JIT) compilation}, which first compiles a block of cod
 (usually a method or function) to native machine code, and then executes it.
 Languages that are compiled at runtime usually require an environment
 that includes both interpreter and JIT compiler. Such environment is
-called a (process) \textit{virtual machine} (VM), that manages
-compilation process and decides whether to interpret or JIT-compile
-a block of code. The decision depends on a block of code; 
+called a (process) \textit{virtual machine} (VM); it manages
+the compilation process and decides whether to interpret or JIT-compile
+a block of code. The decision depends on the character of the block of code; 
 for example, if the block of code is to known to be
 frequently called throughout a lifetime of a program, it would be more
 optimal to JIT-compile it and cache the result for future calls; but,

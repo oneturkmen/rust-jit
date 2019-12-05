@@ -6,33 +6,35 @@
     \label{rustex1}
 \end{figure*}
 
-As stated in the previous section, Rust is a strongly typed language compiled at static time.
-It has a strict type system where each variable's type should be known at compile
-time. Despite the strong type system, the concept of \textit{ownership} is what
-makes Rust truly a unique language.
+As stated in the previous section, Rust is a strongly typed language compiled
+at static time.  Each variable should have its type explicitly declared (or
+easily inferable) at compile time. However, type system alone is not enough to
+make the language more memory secure. Thus, a concept of \textit{ownership},
+which I will explain in this section, is what makes Rust truly a unique
+language.
 
 Before understanding ownership, let us consider how programs manage memory.
-Some languages use a \textit{garbage collector}, which, as program is running,
-looks for unused memory locations and frees them constantly (i.e., at
-runtime). Other languages completely delegate memory management to developers
-themselves; for example, if you are writing in C and want to allocate a variable onto
-the heap segment, you have to allocate and free memory on your own.
+Some languages use a \textit{garbage collector}; while program is running,
+it looks for unused memory locations and frees them constantly (i.e., at
+run time). Other languages completely delegate memory management to developers
+themselves; for example, if you are writing in C and want to allocate a variable at
+the heap, you have to allocate and free memory on your own using \texttt{malloc}.
 
-Garbage collectors usually add overhead at runtime as the collector has to find
+Garbage collectors usually add runtime overhead because the collector has to find
 all (and there can be many at a time) allocated, but unused memory segments,
-and de-allocate them. On the other hand, trusting developers to manage program
+and deallocate them. On the other hand, trusting developers to manage program
 memory manually is a \textit{bad} and error-prone idea that may lead to problems such
 as dangling pointer (a pointer that points to deallocated memory
 location), memory leaks (forgetting to deallocate allocated memory), and others which
-are hard to debug.
+are hard to detect and debug.
 
 However, Rust introduces a third dimension of memory management
 that is enforced at compile time. According to Steve Klabnik and Carol Nichols
-\textcolor{red}{cite rust book}, "memory is managed through a system of
-ownership with a set of rules that the compiler checks at compile time. None of
+\textcolor{red}{cite rust book}, "memory is managed through a \textit{system of
+ownership} with a set of rules that the compiler checks at compile time. None of
 the ownership features slow down your program while it's running." Note
 that even though ownership features do not slow down the execution of a program,
-it slows down a compilation process by having to perform additional analysis
+it slows down compilation by having to perform additional analysis
 to verify the rules.
 
 The following are the ownership rules that help Rust get rid of garbage collection
@@ -49,7 +51,7 @@ Take a look at \hyperref[rustex1]{Figure 1}. Before the declaration statement,
 \texttt{s} can now be used, but only in the nested scope. As the scope
 is over, \texttt{s}'s value is dropped as owner goes out of the nested scope.
 
-What makes ownership more exciting is \textit{borrowing} owners. For comparison
+What makes ownership more exciting is so-called \textit{borrowing}. For comparison
 with \hyperref[rustex1]{Figure 1}, take a look at \hyperref[rustex2]{Figure 2}.
 
 \begin{figure*}[ht]
@@ -65,7 +67,7 @@ Instead of either copying or \textit{moving} the value of that struct into the v
 \texttt{borrower}, we can instead borrow a value of \texttt{owner} by \textit{referencing}
 it.
 
-Several questions immediately raise - what about multiple references? Also, if I have 
+Several questions immediately raise - what about multiple references? If I have 
 multiple references that change (or, \textit{mutate}) the value of \texttt{owner},
 would not this cause \textit{data races}? Before providing answers, we have to differentiate
 between \textit{immutable} and \textit{mutable} references. The immutable references do not
@@ -84,4 +86,7 @@ also follows a system of rules. The following are some of its rules:
          of their scope).
 \end{itemize}
 
-
+Besides borrow checking, there are some other important (for compile-time safety)
+analyses that compiler runs; examples include \textit{lifetime analysis}, \textit{typestate
+analysis}, and so on. Because borrow checker is the only analyzer I am looking at
+in this paper, we are not going to consider the other ones.

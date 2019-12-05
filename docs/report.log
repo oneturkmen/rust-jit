@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.9.6)  3 DEC 2019 16:11
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.3.28)  4 DEC 2019 21:23
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -694,41 +694,35 @@ Missing character: There is no € in font cmr10!
 Missing character: There is no ™ in font cmr10!
 ) [1.1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
-] (./rust_ex2.rs)) (./main_ideas.tex [2.2]
+] (./rust_ex2.rs)
+Underfull \vbox (badness 2119) has occurred while \output is active []
+
+) (./main_ideas.tex [2.2]
 Overfull \hbox (46.10497pt too wide) in paragraph at lines 38--45
 \OT1/cmr/m/n/10 (-20) pre-sen-ta-tion-http://www.cs.columbia.edu/ aho/cs6998/Lectures/14-
  []
 
+<architecture.png, id=105, 521.95pt x 333.245pt>
+File: architecture.png Graphic file (type png)
+<use architecture.png>
+Package pdftex.def Info: architecture.png  used on input line 66.
+(pdftex.def)             Requested size: 252.94499pt x 161.49649pt.
 
-Overfull \hbox (28.54108pt too wide) in paragraph at lines 62--70
+Overfull \hbox (12.0pt too wide) in paragraph at lines 66--68
+ [][] 
+ []
+
+(./ast.cpp)
+Overfull \hbox (28.54108pt too wide) in paragraph at lines 80--88
 \OT1/cmr/m/n/10 (-20) https://rust-lang.github.io/rustc-guide/mir/index.html[] control-
  []
 
 
-Overfull \hbox (67.35452pt too wide) in paragraph at lines 71--90
+Overfull \hbox (67.35452pt too wide) in paragraph at lines 89--108
 \OT1/cmr/m/n/10 (-20) https://www.usenix.org/legacy/publications/library/proceedings/jvm01
  []
 
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-<architecture.png, id=106, 521.95pt x 333.245pt>
-File: architecture.png Graphic file (type png)
-<use architecture.png>
-Package pdftex.def Info: architecture.png  used on input line 96.
-(pdftex.def)             Requested size: 252.94499pt x 161.49649pt.
-
-Overfull \hbox (12.0pt too wide) in paragraph at lines 96--98
- [][] 
- []
-
-(./ast.cpp)) (./implementation.tex
-Underfull \vbox (badness 2435) has occurred while \output is active []
-
- [3.3 <./architecture.png>]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- (./astv.cpp
+[3.3 <./architecture.png>]) (./implementation.tex (./astv.cpp
 LaTeX Font Info:    Try loading font information for OML+cmr on input line 1.
  (/usr/share/texlive/texmf-dist/tex/latex/base/omlcmr.fd
 File: omlcmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
@@ -736,17 +730,20 @@ File: omlcmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10> not available
 (Font)              Font shape `OML/cmm/m/it' tried instead on input line 1.
 )
-Overfull \hbox (1.34862pt too wide) in paragraph at lines 74--83
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [4.4]
+Overfull \hbox (1.34862pt too wide) in paragraph at lines 72--81
 \OT1/cmr/m/n/10 (-20) (\OT1/cmtt/m/n/10 std::unordered[]map<> \OT1/cmr/m/n/10 (-20) in C++). One map (\OT1/cmr/bx/n/10 env\OT1/cmr/m/n/10 (-20) ) stores
  []
 
-
+) (./evaluation.tex
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [4.4]) (./evaluation.tex) (./related_work.tex) (./conclusion.tex
+) (./related_work.tex)
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [5.5]) [6.6
+ [5.5] (./conclusion.tex) [6.6
 
 ]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 293.
@@ -758,15 +755,15 @@ Package rerunfilecheck Info: File `report.out' has not changed.
 (rerunfilecheck)             Checksum: DB4E4E6D53D6B81EED51DAA11A054D6F;2225.
  ) 
 Here is how much of TeX's memory you used:
- 16858 strings out of 494923
- 244508 string characters out of 6180743
+ 16862 strings out of 494923
+ 244544 string characters out of 6180742
  408864 words of memory out of 5000000
  19543 multiletter control sequences out of 15000+600000
- 15764 words of font info for 101 fonts, out of 8000000 for 9000
+ 16037 words of font info for 103 fonts, out of 8000000 for 9000
  175 hyphenation exceptions out of 8191
- 60i,16n,94p,861b,1364s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,16n,94p,861b,1363s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/rahatly/.texlive2017/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on report.pdf (6 pages, 228295 bytes).
+Output written on report.pdf (6 pages, 228886 bytes).
 PDF statistics:
  248 PDF objects out of 1000 (max. 8388607)
  201 compressed objects within 3 object streams
