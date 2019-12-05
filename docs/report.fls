@@ -246,6 +246,8 @@ INPUT related_work.tex
 INPUT related_work.tex
 INPUT conclusion.tex
 INPUT conclusion.tex
+INPUT report.bbl
+INPUT report.bbl
 INPUT report.aux
 INPUT ./report.out
 INPUT ./report.out

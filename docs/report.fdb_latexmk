@@ -1,5 +1,13 @@
 # Fdb version 3
-["pdflatex"] 1575519790 "report.tex" "report.pdf" "report" 1575519791
+["bibtex report"] 1575522746 "report.aux" "report.bbl" "report" 1575522797
+  "./ACM-Reference-Format.bst" 1575522770 83571 33d2b662030b94ccf5f55f119f85c1d2 ""
+  "bibfile.bib" 1575522664 98 19e326776ba5ed441ca46013fe8a828c ""
+  "report.aux" 1575522797 3849 18fa1fccccc7732528422fa1f5070c04 ""
+  "report.bcf" 0 -1 0 ""
+  (generated)
+  "report.bbl"
+  "report.blg"
+["pdflatex"] 1575522796 "report.tex" "report.pdf" "report" 1575522797
   "/etc/texmf/web2c/texmf.cnf" 1553799814 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/home/rahatly/.texlive2017/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk" 1575176349 11524 9a71547a7d47f375d8dd3017b84841bf ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1511824771 3332 103109f5612ad95229751940c61aada0 ""
@@ -139,15 +147,16 @@
   "main_ideas.tex" 1575518398 5980 d3e590aa13c14d8c1e54d74489fbddd0 ""
   "overview.tex" 1575517834 4697 ac6b39170862c665323f196045807eee ""
   "related_work.tex" 1575516408 856 dfd5ffb461e523e000050de78a87de39 ""
-  "report.aux" 1575519791 3811 56b1e35b92c8cba3726a16e192682469 ""
-  "report.out" 1575519791 2225 db4e4e6d53d6b81eed51daa11a054d6f ""
-  "report.tex" 1575355343 10976 1e96e0e3688b8a9ac4346add812d12aa ""
+  "report.aux" 1575522797 3849 18fa1fccccc7732528422fa1f5070c04 ""
+  "report.bbl" 1575522746 0 d41d8cd98f00b204e9800998ecf8427e "bibtex report"
+  "report.out" 1575522797 2225 db4e4e6d53d6b81eed51daa11a054d6f ""
+  "report.tex" 1575522740 10990 db7159e5405e757fe26aed6af3287ce8 ""
   "rust_ex1.rs" 1575335078 232 dfd53aca6a1a9ca8aba0e5af8e702992 ""
   "rust_ex2.rs" 1575335078 77 32616791a1fecc1d960374e90210be10 ""
   (generated)
   "foo.tex.aux"
-  "report.aux"
+  "report.pdf"
   "report.log"
   "comment.cut"
-  "report.pdf"
+  "report.aux"
   "report.out"
