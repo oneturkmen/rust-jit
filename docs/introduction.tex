@@ -14,11 +14,13 @@ compile-time errors faster.
 
 However, while the Rust compiler, \texttt{rustc}, performs these checks at
 compile time, its compilation time drastically increases. According to the
-\textit{Computer Language Benchmarks Game} \textcolor{red}{CITE}, Rust
-performed about slower on 6 out of 10 programs when comparing Rust to C. On
-these 6 programs, the \texttt{rustc} was 11\% slower on average than GCC. \textcolor{red}{Add note
-that though Rust is getting better and benchmarks may have been anulled, there is
-still a need for runtime environment such as garbage collection}
+\textit{Computer Language Benchmarks Game}, Rust performed about slower on 6
+out of 10 programs when comparing Rust to C \cite{rustbench}. On these 6
+programs, the \texttt{rustc} was 11\% slower on average than GCC.
+
+Therefore, slow compile times open up opportunities for the ``just-in-time''
+(or dynamic) compilation techniques that may speed up static compilation
+without hurting execution speed.
 
 \subsection{Potential solution}
 
@@ -41,23 +43,22 @@ contain complex, resource-intensive operations to optimize), interpreting it
 would be faster.
 
 Rust could leverage run-time techniques to speed up its compilation time.
-Knowing that very few parts in the code get executed the most (if the Pareto
-principle holds true \textcolor{red}{cite pareto}), one could
+Knowing that very few parts in the code get executed the most, one could
 focus on optimizing those parts through JIT-compilation, and interpreting the
 rest.
 
-\textcolor{red}{Move this paragraph under main ideas}Compiling language at runtime is not a novel idea.
-\textcolor{red}{JAVA cite} Inspired by Smalltalk, Java
-is a strongly-typed static object-oriented programming language.
-Its execution model (Java Virtual Machine, or JVM) consists of two compilers.
+Compiling language at runtime is not a novel idea.  Inspired by Smalltalk, Java
+is a strongly-typed static object-oriented programming language.  Its execution
+model (Java Virtual Machine, or JVM) consists of two compilers \cite{javajvm}.
 The front-end compiler performs necessary static checks (e.g., type checking)
-at compile time, and emits an intermediate representation, or \textit{bytecode}.
-Then, the other compiler takes the bytecode, performs necessary optimizations,
-and JIT-compiles it (by translating it into machine code and executing
-it). JVM attempts to optimize more of so-called \textit{hot spots}, the areas
-of code where a program spends most of its time. As Java is similar to Rust
-in its type system (strongly-typed and static), similar dynamic compilation 
-techniques will help us implement similar runtime environment for Rust.
+at compile time, and emits an intermediate representation, or
+\textit{bytecode}.  Then, the other compiler takes the bytecode, performs
+necessary optimizations, and JIT-compiles it (by translating it into machine
+code and executing it). JVM attempts to optimize more of so-called \textit{hot
+spots}, the areas of code where a program spends most of its time. As Java is
+similar to Rust in its type system (strongly-typed and static), similar dynamic
+compilation techniques will help us implement similar runtime environment for
+Rust.
 
 Before discussing core ideas and implementation of our runtime
 execution model, we will briefly describe Rust itself, and the features

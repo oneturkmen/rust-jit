@@ -248,6 +248,7 @@ INPUT conclusion.tex
 INPUT conclusion.tex
 INPUT report.bbl
 INPUT report.bbl
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmss8.tfm
 INPUT report.aux
 INPUT ./report.out
 INPUT ./report.out

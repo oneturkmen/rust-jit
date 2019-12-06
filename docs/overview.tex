@@ -2,7 +2,7 @@
     \begin{center}
     \lstinputlisting{rust_ex1.rs}
     \end{center}
-    \caption{Snippet of Rust lang \textcolor{red}{cite the book}}
+    \caption{Snippet of Rust lang \cite{rustbook}}.
     \label{rustex1}
 \end{figure*}
 
@@ -28,14 +28,13 @@ as dangling pointer (a pointer that points to deallocated memory
 location), memory leaks (forgetting to deallocate allocated memory), and others which
 are hard to detect and debug.
 
-However, Rust introduces a third dimension of memory management
-that is enforced at compile time. According to Steve Klabnik and Carol Nichols
-\textcolor{red}{cite rust book}, "memory is managed through a \textit{system of
-ownership} with a set of rules that the compiler checks at compile time. None of
-the ownership features slow down your program while it's running." Note
-that even though ownership features do not slow down the execution of a program,
-it slows down compilation by having to perform additional analysis
-to verify the rules.
+However, Rust introduces a third dimension of memory management that is
+enforced at compile time. According to Steve Klabnik and Carol Nichols, "memory
+is managed through a \textit{system of ownership} with a set of rules that the
+compiler checks at compile time. None of the ownership features slow down your
+program while it's running" \cite{rustbook}. Note that even though ownership features do not
+slow down the execution of a program, it slows down compilation by having to
+perform additional analysis to verify the rules.
 
 The following are the ownership rules that help Rust get rid of garbage collection
 or manual memory management:

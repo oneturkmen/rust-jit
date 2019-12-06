@@ -1,0 +1,131 @@
+%%% -*-BibTeX-*-
+%%% Do NOT edit. File created by BibTeX with style
+%%% ACM-Reference-Format-Journals [18-Jan-2012].
+
+\begin{thebibliography}{8}
+
+%%% ====================================================================
+%%% NOTE TO THE USER: you can override these defaults by providing
+%%% customized versions of any of these macros before the \bibliography
+%%% command.  Each of them MUST provide its own final punctuation,
+%%% except for \shownote{}, \showDOI{}, and \showURL{}.  The latter two
+%%% do not use final punctuation, in order to avoid confusing it with
+%%% the Web address.
+%%%
+%%% To suppress output of a particular field, define its macro to expand
+%%% to an empty string, or better, \unskip, like this:
+%%%
+%%% \newcommand{\showDOI}[1]{\unskip}   % LaTeX syntax
+%%%
+%%% \def \showDOI #1{\unskip}           % plain TeX syntax
+%%%
+%%% ====================================================================
+
+\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi
+\ifx \showDOI      \undefined \def \showDOI       #1{#1}\fi
+\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi
+\ifx \showISBNxiii \undefined \def \showISBNxiii  #1{\unskip}     \fi
+\ifx \showISSN     \undefined \def \showISSN      #1{\unskip}     \fi
+\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi
+\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi
+\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi
+\ifx \showURL      \undefined \def \showURL       {\relax}        \fi
+% The following commands are used for tagged output and should be
+% invisible to TeX
+\providecommand\bibfield[2]{#2}
+\providecommand\bibinfo[2]{#2}
+\providecommand\natexlab[1]{#1}
+\providecommand\showeprint[2][]{arXiv:#2}
+
+\bibitem[\protect\citeauthoryear{Croce}{Croce}{2014}]%
+        {jitlec}
+\bibfield{author}{\bibinfo{person}{Louis Croce}.}
+  \bibinfo{year}{2014}\natexlab{}.
+\newblock \bibinfo{title}{Just in Time Compilation}.  (\bibinfo{year}{2014}).
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Game}{Game}{[n. d.]}]%
+        {rustbench}
+\bibfield{author}{\bibinfo{person}{The Computer Language~Benchmarks Game}.}
+  \bibinfo{year}{[n. d.]}\natexlab{}.
+\newblock \bibinfo{title}{C gcc versus Rust fastest programs}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://benchmarksgame-team.pages.debian.net/benchmarksgame/fastest/gcc-rust.html}
+\showURL{%
+Retrieved November 29, 2019 from \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Klabnik and Nichols}{Klabnik and
+  Nichols}{2019}]%
+        {rustbook}
+\bibfield{author}{\bibinfo{person}{Steve Klabnik} {and} \bibinfo{person}{Carol
+  Nichols}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \bibinfo{booktitle}{\emph{The Rust Programming Language}}.
+\newblock \bibinfo{publisher}{No Starch Press}.
+\newblock
+\showISBNx{9781718500440}
+
+
+\bibitem[\protect\citeauthoryear{(nbp)}{(nbp)}{[n. d.]}]%
+        {holyjit}
+\bibfield{author}{\bibinfo{person}{Nicholas B.~Pierron (nbp)}.}
+  \bibinfo{year}{[n. d.]}\natexlab{}.
+\newblock \bibinfo{title}{HolyJit: Generic purpose Just-In-time compiler for
+  Rust}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://github.com/nbp/holyjit}
+\showURL{%
+\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Nystrom}{Nystrom}{2018}]%
+        {interpreters}
+\bibfield{author}{\bibinfo{person}{Bob Nystrom}.}
+  \bibinfo{year}{2015-2018}\natexlab{}.
+\newblock \bibinfo{booktitle}{\emph{Crafting Interpreters}}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Russell and Bak}{Russell and Bak}{2001}]%
+        {javajvm}
+\bibfield{author}{\bibinfo{person}{Kenneth Russell} {and} \bibinfo{person}{Lars
+  Bak}.} \bibinfo{year}{2001}\natexlab{}.
+\newblock \showarticletitle{The HotSpot Serviceability Agent: An Out-of-Process
+  High-Level Debugger for a Java Virtual Machine.} \bibinfo{pages}{117--126}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{rust-lang nursery}{rust-lang nursery}{[n.
+  d.]}]%
+        {rustbenchmark}
+\bibfield{author}{\bibinfo{person}{rust-lang nursery}.} \bibinfo{year}{[n.
+  d.]}\natexlab{}.
+\newblock \bibinfo{title}{The Benchmark Suite}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://github.com/rust-lang-nursery/rustc-perf/tree/master/collector/benchmarks}
+\showURL{%
+\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{to~Rustc~Development}{to~Rustc~Development}{[n.
+  d.]}]%
+        {rustmir}
+\bibfield{author}{\bibinfo{person}{Guide to Rustc~Development}.}
+  \bibinfo{year}{[n. d.]}\natexlab{}.
+\newblock \bibinfo{title}{The MIR (Mid-Level IR)}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://rust-lang.github.io/rustc-guide/mir/index.html}
+\showURL{%
+Retrieved November 29, 2019 from \tempurl}
+
+
+\end{thebibliography}

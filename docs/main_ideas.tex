@@ -35,7 +35,7 @@ both interpreters and JIT compilers. Instead of directly executing code,
 we could compile it to some intermediate representation (IR), run optimization
 on that IR, and then compile and execute it.
 
-There are several benefits from JIT compilation\textcolor{red}{cite presentationhttp://www.cs.columbia.edu/~aho/cs6998/Lectures/14-09-22\_Croce\_JIT.pdf}. First, JIT compiler uses
+There are several benefits from JIT compilation \cite{jitlec}. First, JIT compiler uses
 only a fraction of memory that AOT compiler would because we do not have
 to compile entire program at once; we simply compile whatever is necessary 
 ``now'' (i.e., compiling a method being currently called). After obtaining
@@ -80,10 +80,9 @@ way to turn high-level source code into native machine code.
 \texttt{rustc} generates and uses (sequentially) three levels of IR. While
 performing static program analysis such as liveness or pointer analysis, Rust
 compiler refers to (i.e., copies and/or transforms) the mid-level IR (MIR),
-which is obtained from the high-level IR. The MIR is a \textcolor{red}{ cite
-https://rust-lang.github.io/rustc-guide/mir/index.html}  control-flow
-graph-based IR which provides explicit type information. Providing a program's
-explicit execution flow, the MIR makes it possible to perform the
+which is obtained from the high-level IR. The MIR is a control-flow graph-based
+IR which provides explicit type information \cite{rustmir}. Providing a
+program's explicit execution flow, the MIR makes it possible to perform the
 \textit{flow-sensitive} analysis such as borrow checking.
 
 It is hardly possible to do analysis on the original source code. As an
@@ -93,9 +92,7 @@ can handle borrow checking analysis \textit{only}. However, as our project
 starts to support more of the language, interpreter will not be able to perform
 such checks \textit{quick enough} (or, at least, as quick as the original
 static compiler).  We could handle that case by taking an inspiration from the
-Java world, namely the HotSpot JVM \textcolor{red}{cite jvm
-https://www.usenix.org/legacy/publications/library/proceedings/jvm01
-/full\_papers/russell/russell\_html/index.html}. At a high level, JVM is a
+Java world, namely the HotSpot JVM \cite{javajvm}. At a high level, JVM is a
 system with two compilers: an AOT compiler, which reads source code, performs
 (if any useful) optimization transformations, and outputs the corresponding
 bytecode; and a JIT compiler, which then takes the bytecode, optimizes it,
